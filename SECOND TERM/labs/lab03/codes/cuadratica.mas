@@ -1,0 +1,198 @@
+/ Programa para calcular cuántas raíces reales tiene una ecuación cuadrática
+            ORG     100         / Iniciar programa en dirección 100
+START,      INPUT               / Leer el número de casos
+            STORE   CASOS       / Guardar el número de casos
+            CLEAR               / Asegurar que CONT esté en 0
+            STORE   CONT        / Inicializar contador de casos en 0
+
+LOOP,       LOAD    CONT        / Cargar el contador de casos
+            SUBT    CASOS       / Comparar CONT con CASOS
+            SKIPCOND 000        / Si CONT - CASOS < 0, continuar
+            JUMP    DONE        / Si no, terminar programa
+
+            INPUT               / Leer coeficiente a
+            STORE   A           / Guardar coeficiente a
+            INPUT               / Leer coeficiente b
+            STORE   B           / Guardar coeficiente b
+            INPUT               / Leer coeficiente c
+            STORE   C           / Guardar coeficiente c
+
+            / Calcular b²
+            CLEAR               / Limpiar acumulador
+            STORE   B_SQRD      / Inicializar b² en 0
+
+            / Calcular valor absoluto de b
+            LOAD    B
+            SKIPCOND 000        / Si B < 0
+            JUMP    B_POS       / Si B es positivo, ir a B_POS
+            SUBT    B           / Calcular -B
+            SUBT    B
+            STORE   ABS_B       / Guardar |b|
+            JUMP    MULT_B      / Ir a multiplicación
+B_POS,      LOAD    B
+            STORE   ABS_B       / Guardar |b|
+
+            / Multiplicar |b| * |b| usando sumas repetidas
+MULT_B,     LOAD    ABS_B       / Cargar |b|
+            SKIPCOND 400        / Si |b| = 0, saltar multiplicación
+            JUMP    DO_MULT_B
+            JUMP    CALC_4AC     / Si |b| = 0, ya está b² = 0
+
+DO_MULT_B,  LOAD    ABS_B       / Usar |b| como contador
+            STORE   COUNT
+MB_LOOP,    LOAD    B_SQRD
+            ADD     ABS_B       / Sumar |b| cada vez
+            STORE   B_SQRD      / Actualizar b²
+
+            LOAD    COUNT
+            SUBT    ONE         / Decrementar contador
+            STORE   COUNT
+            SKIPCOND 400        / Si COUNT = 0, terminar
+            JUMP    MB_LOOP
+
+            / Calcular 4ac
+CALC_4AC,   CLEAR
+            STORE   FOURAC      / Inicializar FOURAC en 0
+
+            / Calcular valor absoluto de a
+            LOAD    A
+            SKIPCOND 000        / Si A < 0
+            JUMP    A_POS2      / Si A es positivo, ir a A_POS2
+            SUBT    A           / Calcular -A
+            SUBT    A
+            STORE   ABS_A       / Guardar |a|
+            JUMP    CALC_C      / Ir a cálculo de |c|
+A_POS2,     LOAD    A
+            STORE   ABS_A       / Guardar |a|
+
+            / Calcular valor absoluto de c
+CALC_C,     LOAD    C
+            SKIPCOND 000        / Si C < 0
+            JUMP    C_POS2      / Si C es positivo, ir a C_POS2
+            SUBT    C           / Calcular -C
+            SUBT    C
+            STORE   ABS_C       / Guardar |c|
+            JUMP    CHECK_AC_SIGN
+C_POS2,     LOAD    C
+            STORE   ABS_C       / Guardar |c|
+
+            / Determinar el signo de a*c mediante la comparación de a y c
+            / Si A es negativo, ir a A_NEGATIVE; de lo contrario, ir a CHECK_C.
+CHECK_AC_SIGN, LOAD    A
+            SKIPCOND 000        / Si A < 0
+            JUMP    A_NEGATIVE  / A negativo: manejar según C
+            JUMP    CHECK_C     / A no negativo: ir a CHECK_C
+
+A_NEGATIVE, LOAD    C
+            SKIPCOND 800        / Si C > 0
+            JUMP    NEG_RES     / A negativo y C > 0 → producto negativo
+            JUMP    POS_RES     / A negativo y C ≤ 0 → producto positivo
+
+CHECK_C,    LOAD    C
+            SKIPCOND 800        / Si C > 0
+            JUMP    POS_RES     / A positivo y C > 0 → producto positivo
+            JUMP    NEG_RES     / A positivo y C ≤ 0 → producto negativo
+
+            / Multiplicación para a*c positivo
+POS_RES,    CLEAR
+            STORE   AC          / Inicializar AC en 0
+            LOAD    ABS_A
+            SKIPCOND 400        / Si |a| = 0, omitir multiplicación
+            JUMP    DO_MULT_AC_POS
+            JUMP    MULT_4      / Si |a| = 0, entonces AC = 0
+
+DO_MULT_AC_POS, LOAD   ABS_C    / Usar |c| como contador
+            STORE   COUNT
+MAC_POS_LOOP, LOAD   AC
+            ADD     ABS_A        / Sumar |a| cada vez
+            STORE   AC           / Actualizar a*c
+
+            LOAD    COUNT
+            SUBT    ONE         / Decrementar contador
+            STORE   COUNT
+            SKIPCOND 400        / Si COUNT = 0, terminar
+            JUMP    MAC_POS_LOOP
+            JUMP    MULT_4
+
+            / Multiplicación para a*c negativo
+NEG_RES,   CLEAR
+            STORE   AC          / Inicializar AC en 0
+            LOAD    ABS_A
+            SKIPCOND 400        / Si |a| = 0, omitir multiplicación
+            JUMP    DO_MULT_AC_NEG
+            JUMP    MULT_4
+
+DO_MULT_AC_NEG, LOAD   ABS_C    / Usar |c| como contador
+            STORE   COUNT
+MAC_NEG_LOOP, LOAD   AC
+            ADD     ABS_A        / Sumar |a| cada vez
+            STORE   AC           / Actualizar a*c
+
+            LOAD    COUNT
+            SUBT    ONE         / Decrementar contador
+            STORE   COUNT
+            SKIPCOND 400        / Si COUNT = 0, terminar
+            JUMP    MAC_NEG_LOOP
+
+            / Negar el producto (pasa de |a*c| a -|a*c|)
+            LOAD    ZERO
+            SUBT    AC
+            STORE   AC
+
+            / Multiplicar AC por 4: sumar AC cuatro veces
+MULT_4,     LOAD    AC
+            ADD     AC         / 2 * a*c
+            ADD     AC         / 3 * a*c
+            ADD     AC         / 4 * a*c
+            STORE   FOURAC
+
+            / Calcular discriminante: b² - 4ac
+            LOAD    B_SQRD
+            SUBT    FOURAC
+            STORE   DISCR
+
+            / Evaluar discriminante:
+            LOAD    DISCR
+            SKIPCOND 800       / Si DISCR > 0, salta al siguiente
+            JUMP    NON_POSITIVE
+            LOAD    TWO          / Si DISCR > 0, asignar 2 raíces
+            JUMP    PRINT_RESULT
+
+NON_POSITIVE, LOAD    DISCR
+            SKIPCOND 400       / Si DISCR == 0, salta al siguiente
+            JUMP    NEGATIVE_ROOTS  / Si no es cero (y no es > 0), debe ser negativo
+            LOAD    ONE          / Si DISCR == 0, 1 raíz real
+            JUMP    PRINT_RESULT
+
+NEGATIVE_ROOTS, LOAD    ZERO         / Si DISCR < 0, 0 raíces reales
+            JUMP    PRINT_RESULT
+
+PRINT_RESULT, OUTPUT
+            / Incrementar contador de casos procesados
+            LOAD    CONT
+            ADD     ONE
+            STORE   CONT
+            JUMP    LOOP
+
+DONE,       HALT               / Terminar programa
+
+/ Variables
+A,          DEC     0          / Coeficiente a
+B,          DEC     0          / Coeficiente b
+C,          DEC     0          / Coeficiente c
+ABS_A,      DEC     0          / Valor absoluto de a
+ABS_B,      DEC     0          / Valor absoluto de b
+ABS_C,      DEC     0          / Valor absoluto de c
+B_SQRD,     DEC     0          / b²
+AC,         DEC     0          / a*c (producto sin signo)
+FOURAC,     DEC     0          / 4ac (con signo)
+DISCR,      DEC     0          / Discriminante: b² - 4ac
+TEMP,       DEC     0          / Variable temporal
+COUNT,      DEC     0          / Contador para multiplicación
+ZERO,       DEC     0          / Constante 0
+ONE,        DEC     1          / Constante 1
+TWO,        DEC     2          / Constante 2
+CASOS,      DEC     0          / Número total de casos
+CONT,       DEC     0          / Contador de casos procesados
+
+            END

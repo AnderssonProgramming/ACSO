@@ -1,0 +1,19 @@
+================================================
+USUARIO | DESCRIPCIÓN
+================================================
+root | root
+bin | bin
+daemon | daemon
+lp | lp
+sync | sync
+shutdown | shutdown
+halt | halt
+mail | mail
+news | news
+uucp | uucp
+cron | cron
+sshd | sshd
+games | games
+ntp | NTP
+guest | guest
+nobody | nobody

@@ -1,0 +1,104 @@
+/ Programa para calcular la suma del máximo y el mínimo de tres números
+
+            ORG     100     / Iniciar programa en dirección 100
+START,      INPUT           / Leer el número de casos
+            STORE   CASOS   / Guardar el número de casos
+            CLEAR            / Asegurar que AC esté en 0
+            STORE   CONT    / Inicializar contador de casos en 0
+
+LOOP,       LOAD    CONT    / Cargar el contador de casos
+            SUBT    CASOS   / Restar casos totales del contador
+            SKIPCOND 000    / Si CONT - CASOS < 0, continuar el ciclo
+            JUMP    DONE    / Si no, terminar programa
+            
+            INPUT           / Leer primer número
+            STORE   NUM1    / Guardar primer número
+            INPUT           / Leer segundo número
+            STORE   NUM2    / Guardar segundo número
+            INPUT           / Leer tercer número
+            STORE   NUM3    / Guardar tercer número
+
+            / Encontrar el máximo de los tres números
+            / Primero comparamos NUM1 y NUM2
+            LOAD    NUM1
+            SUBT    NUM2
+            SKIPCOND 000    / Si NUM1 < NUM2, entonces NUM2 es mayor
+            JUMP    N1_MAYOR_N2
+            
+            LOAD    NUM2    / NUM2 es mayor que NUM1
+            STORE   MAX_TEMP
+            JUMP    COMP_N3
+
+N1_MAYOR_N2, LOAD    NUM1   / NUM1 es mayor que NUM2
+            STORE   MAX_TEMP
+
+            / Ahora comparamos MAX_TEMP con NUM3
+COMP_N3,    LOAD    MAX_TEMP
+            SUBT    NUM3
+            SKIPCOND 000    / Si MAX_TEMP < NUM3, entonces NUM3 es mayor
+            JUMP    TEMP_MAYOR_N3
+            
+            LOAD    NUM3    / NUM3 es el máximo
+            STORE   MAXIMO
+            JUMP    FIND_MIN
+            
+TEMP_MAYOR_N3, LOAD  MAX_TEMP / MAX_TEMP es el máximo
+            STORE   MAXIMO
+
+            / Encontrar el mínimo de los tres números
+            / Primero comparamos NUM1 y NUM2
+FIND_MIN,   LOAD    NUM1
+            SUBT    NUM2
+            SKIPCOND 000    / Si NUM1 < NUM2, entonces NUM1 es menor
+            JUMP    N2_MENOR_N1
+            
+            LOAD    NUM1    / NUM1 es menor que NUM2
+            STORE   MIN_TEMP
+            JUMP    COMP_MIN_N3
+
+N2_MENOR_N1, LOAD   NUM2    / NUM2 es menor que NUM1
+            STORE   MIN_TEMP
+
+            / Ahora comparamos MIN_TEMP con NUM3
+COMP_MIN_N3, LOAD   MIN_TEMP
+            SUBT    NUM3
+            SKIPCOND 000    / Si MIN_TEMP < NUM3, entonces MIN_TEMP es menor
+            JUMP    N3_MENOR_TEMP
+            
+            LOAD    MIN_TEMP / MIN_TEMP es el mínimo
+            STORE   MINIMO
+            JUMP    SUM_MAX_MIN
+            
+N3_MENOR_TEMP, LOAD NUM3    / NUM3 es el mínimo
+            STORE   MINIMO
+
+            / Sumar el máximo y el mínimo
+SUM_MAX_MIN, LOAD   MAXIMO
+            ADD     MINIMO
+            STORE   RESULTADO
+
+            / Imprimir el resultado
+            LOAD    RESULTADO
+            OUTPUT
+            
+            / Incrementar contador y volver al bucle
+            LOAD    CONT
+            ADD     UNO
+            STORE   CONT
+            JUMP    LOOP
+
+DONE,       HALT            / Terminar programa
+
+/ Variables
+NUM1,       DEC     0       / Primer número
+NUM2,       DEC     0       / Segundo número
+NUM3,       DEC     0       / Tercer número
+MAX_TEMP,   DEC     0       / Máximo temporal
+MIN_TEMP,   DEC     0       / Mínimo temporal
+MAXIMO,     DEC     0       / Valor máximo
+MINIMO,     DEC     0       / Valor mínimo
+RESULTADO,  DEC     0       / Suma del máximo y mínimo
+CASOS,      DEC     0       / Número total de casos
+CONT,       DEC     0       / Contador de casos procesados
+UNO,        DEC     1       / Constante 1
+            END             / Fin del programa

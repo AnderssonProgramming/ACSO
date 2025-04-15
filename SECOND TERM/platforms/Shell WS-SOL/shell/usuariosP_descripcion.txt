@@ -1,0 +1,12 @@
+================================================
+USUARIO | DESCRIPCIÓN
+================================================
+Administrador | Cuenta integrada para la administración del equipo o dominio
+DefaultAccount | Cuenta de usuario administrada por el sistema.
+Invitado | Cuenta integrada para el acceso como invitado al equipo o dominio
+usuario_admin | Administrador del Sistema
+usuario_dba | Analista de Base de Datos
+usuario_dev | Desarrollador Web
+usuario_soporte | Soporte Técnico
+usuario_test | Estudiante de Prueba
+WDAGUtilityAccount | Una cuenta de usuario que el sistema administra y usa para escenarios de Protección de aplicaciones de Windows Defender.

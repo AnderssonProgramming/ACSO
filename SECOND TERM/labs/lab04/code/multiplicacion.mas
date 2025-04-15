@@ -1,0 +1,70 @@
+/ Titulo: Laboratorio 8 | punto a
+/ Autor: Daniel Antonio Santanilla
+/ Dados a, b, c, x
+/ Calcular y = axx + bx + c
+
+/ funcion principal (main)
+main, DEC 0 
+	INPUT
+	STORE a
+	INPUT
+	STORE b
+	INPUT
+	STORE c
+	INPUT
+	STORE x
+
+	LOAD a
+	STORE mul_a
+	LOAD x
+	STORE mul_b
+	JNS mul
+	STORE mul_a
+	LOAD x
+	STORE mul_b
+	JNS mul
+	STORE y
+	LOAD b
+	STORE mul_a
+	LOAD x
+	STORE mul_b
+	JNS mul
+	ADD y
+	ADD c
+	STORE y
+	OUTPUT
+	HALT
+
+/ datos funcion principal (main)
+a, DEC 0
+b, DEC 0
+c, DEC 0
+x, DEC 0
+y, DEC 0
+
+/ funcion de multiplicacion (mul)
+/ input: a, b
+/ output: ab
+mul,    DEC 0
+	CLEAR
+	STORE mul_s
+	STORE mul_i
+mul_w,  SUBT mul_b
+	SKIPCOND 000
+	JUMP mul_end_w
+	LOAD mul_s
+	ADD mul_a
+	STORE mul_s
+	LOAD mul_i
+	ADD mul_one
+	STORE mul_i
+	JUMP mul_w
+mul_end_w, LOAD mul_s
+	JUMPI mul
+
+/ datos para la funcion multiplicacion (mul)
+mul_a, DEC 0
+mul_b, DEC 0
+mul_s, DEC 0
+mul_i, DEC 40
+mul_one, DEC 1

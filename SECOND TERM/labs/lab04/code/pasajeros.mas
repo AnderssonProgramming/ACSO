@@ -1,0 +1,217 @@
+/ Programa para resolver el problema de la aerolínea
+            ORG     100     / Iniciar programa en dirección 100
+START,      INPUT           / Leer el número de casos
+            STORE   CASOS   / Guardar el número de casos
+            CLEAR           / Asegurar que AC esté en 0
+            STORE   CONT    / Inicializar contador de casos en 0
+LOOP,       LOAD    CONT    / Cargar el contador de casos
+            SUBT    CASOS   / Restar casos totales del contador
+            SKIPCOND 000    / Si CONT - CASOS < 0, continuar el ciclo
+            JUMP    DONE    / Si no, terminar programa
+            
+            / Leer pasajeros para cada país
+            INPUT           / Leer pasajeros a Bélgica
+            STORE   BELG    / Guardar pasajeros a Bélgica
+            INPUT           / Leer pasajeros a Inglaterra
+            STORE   INGL    / Guardar pasajeros a Inglaterra
+            INPUT           / Leer pasajeros a Noruega
+            STORE   NORU    / Guardar pasajeros a Noruega
+            INPUT           / Leer pasajeros a Irlanda
+            STORE   IRLA    / Guardar pasajeros a Irlanda
+            INPUT           / Leer pasajeros a Francia
+            STORE   FRAN    / Guardar pasajeros a Francia
+            
+            / Calcular MCD - Primero de Bélgica e Inglaterra
+            LOAD    BELG    / Cargar pasajeros a Bélgica
+            STORE   A       / A = pasajeros a Bélgica
+            LOAD    INGL    / Cargar pasajeros a Inglaterra
+            STORE   B       / B = pasajeros a Inglaterra
+            JNS     GCD     / Calcular MCD(A,B)
+            STORE   TEMP    / Guardar MCD temporal
+            
+            / MCD de resultado anterior y Noruega
+            LOAD    TEMP    / Cargar MCD temporal
+            STORE   A       / A = MCD temporal
+            LOAD    NORU    / Cargar pasajeros a Noruega
+            STORE   B       / B = pasajeros a Noruega
+            JNS     GCD     / Calcular MCD(A,B)
+            STORE   TEMP    / Guardar MCD temporal
+            
+            / MCD de resultado anterior e Irlanda
+            LOAD    TEMP    / Cargar MCD temporal
+            STORE   A       / A = MCD temporal
+            LOAD    IRLA    / Cargar pasajeros a Irlanda
+            STORE   B       / B = pasajeros a Irlanda
+            JNS     GCD     / Calcular MCD(A,B)
+            STORE   TEMP    / Guardar MCD temporal
+            
+            / MCD de resultado anterior y Francia
+            LOAD    TEMP    / Cargar MCD temporal
+            STORE   A       / A = MCD temporal
+            LOAD    FRAN    / Cargar pasajeros a Francia
+            STORE   B       / B = pasajeros a Francia
+            JNS     GCD     / Calcular MCD(A,B)
+            STORE   MCD     / Guardar MCD final
+            
+            / Imprimir pasajeros por avión (MCD)
+            LOAD    MCD
+            OUTPUT          / Imprimir pasajeros por avión
+            
+            / Calcular y mostrar aviones para Bélgica
+            LOAD    BELG    / Cargar pasajeros a Bélgica
+            STORE   A       / A = pasajeros a Bélgica
+            LOAD    MCD     / Cargar MCD
+            STORE   B       / B = MCD
+            JNS     DIV     / Calcular A / B
+            OUTPUT          / Imprimir aviones a Bélgica
+            STORE   AV_BELG / Guardar aviones a Bélgica
+            
+            / Calcular y mostrar aviones para Inglaterra
+            LOAD    INGL    / Cargar pasajeros a Inglaterra
+            STORE   A       / A = pasajeros a Inglaterra
+            LOAD    MCD     / Cargar MCD
+            STORE   B       / B = MCD
+            JNS     DIV     / Calcular A / B
+            OUTPUT          / Imprimir aviones a Inglaterra
+            STORE   AV_INGL / Guardar aviones a Inglaterra
+            
+            / Calcular y mostrar aviones para Noruega
+            LOAD    NORU    / Cargar pasajeros a Noruega
+            STORE   A       / A = pasajeros a Noruega
+            LOAD    MCD     / Cargar MCD
+            STORE   B       / B = MCD
+            JNS     DIV     / Calcular A / B
+            OUTPUT          / Imprimir aviones a Noruega
+            STORE   AV_NORU / Guardar aviones a Noruega
+            
+            / Calcular y mostrar aviones para Irlanda
+            LOAD    IRLA    / Cargar pasajeros a Irlanda
+            STORE   A       / A = pasajeros a Irlanda
+            LOAD    MCD     / Cargar MCD
+            STORE   B       / B = MCD
+            JNS     DIV     / Calcular A / B
+            OUTPUT          / Imprimir aviones a Irlanda
+            STORE   AV_IRLA / Guardar aviones a Irlanda
+            
+            / Calcular y mostrar aviones para Francia
+            LOAD    FRAN    / Cargar pasajeros a Francia
+            STORE   A       / A = pasajeros a Francia
+            LOAD    MCD     / Cargar MCD
+            STORE   B       / B = MCD
+            JNS     DIV     / Calcular A / B
+            OUTPUT          / Imprimir aviones a Francia
+            STORE   AV_FRAN / Guardar aviones a Francia
+            
+            / Calcular y mostrar total de aviones
+            LOAD    AV_BELG  / Cargar aviones a Bélgica
+            ADD     AV_INGL  / Sumar aviones a Inglaterra
+            ADD     AV_NORU  / Sumar aviones a Noruega
+            ADD     AV_IRLA  / Sumar aviones a Irlanda
+            ADD     AV_FRAN  / Sumar aviones a Francia
+            OUTPUT           / Imprimir total de aviones
+            
+            / Incrementar contador y volver al bucle
+            LOAD    CONT
+            ADD     ONE
+            STORE   CONT
+            JUMP    LOOP
+
+/ Subrutina para calcular el Máximo Común Divisor (Algoritmo de Euclides)
+GCD,        HEX     0       / Punto de retorno para JNS
+GCD_LOOP,   LOAD    A
+            SUBT    B
+            SKIPCOND 000    / Si A < B, intercambiar
+            JUMP    A_GTE_B
+            
+            / Intercambiar A y B
+            LOAD    A
+            STORE   TEMP_GCD
+            LOAD    B
+            STORE   A
+            LOAD    TEMP_GCD
+            STORE   B
+            
+A_GTE_B,    LOAD    B       / Verificar si B = 0
+            SKIPCOND 400
+            JUMP    B_NOT_ZERO
+            LOAD    A       / Si B = 0, MCD = A
+            JUMPI   GCD     / Retornar
+            
+B_NOT_ZERO, LOAD    A
+            STORE   DIVIDEND
+            LOAD    B
+            STORE   DIVISOR
+            CLEAR
+            STORE   QUOTIENT
+            STORE   REMAINDER
+            
+            / Calcular A mod B
+MOD_LOOP,   LOAD    DIVIDEND
+            SUBT    DIVISOR
+            SKIPCOND 000    / Si DIVIDEND < DIVISOR, terminar
+            JUMP    CONTINUE_MOD
+            LOAD    DIVIDEND
+            STORE   REMAINDER
+            JUMP    MOD_DONE
+            
+CONTINUE_MOD, STORE DIVIDEND
+            LOAD    QUOTIENT
+            ADD     ONE
+            STORE   QUOTIENT
+            JUMP    MOD_LOOP
+            
+MOD_DONE,   LOAD    B       / A = B
+            STORE   A
+            LOAD    REMAINDER / B = A mod B
+            STORE   B
+            SKIPCOND 400    / Si B = 0, terminar
+            JUMP    GCD_LOOP
+            LOAD    A       / Resultado = A
+            JUMPI   GCD     / Retornar
+
+/ Subrutina para división entera
+DIV,        HEX     0       / Punto de retorno para JNS
+            CLEAR
+            STORE   RESULT  / Inicializar resultado en 0
+            
+DIV_LOOP,   LOAD    A
+            SUBT    B
+            SKIPCOND 000    / Si A < B, terminar
+            JUMP    CONTINUE_DIV
+            LOAD    RESULT
+            JUMPI   DIV     / Retornar resultado
+            
+CONTINUE_DIV, STORE A
+            LOAD    RESULT
+            ADD     ONE
+            STORE   RESULT
+            JUMP    DIV_LOOP
+            
+DONE,       HALT            / Terminar programa
+
+/ Variables
+BELG,       DEC     0       / Pasajeros a Bélgica
+INGL,       DEC     0       / Pasajeros a Inglaterra
+NORU,       DEC     0       / Pasajeros a Noruega
+IRLA,       DEC     0       / Pasajeros a Irlanda
+FRAN,       DEC     0       / Pasajeros a Francia
+AV_BELG,    DEC     0       / Aviones a Bélgica
+AV_INGL,    DEC     0       / Aviones a Inglaterra
+AV_NORU,    DEC     0       / Aviones a Noruega
+AV_IRLA,    DEC     0       / Aviones a Irlanda
+AV_FRAN,    DEC     0       / Aviones a Francia
+MCD,        DEC     0       / Máximo común divisor
+A,          DEC     0       / Variable para GCD
+B,          DEC     0       / Variable para GCD
+TEMP,       DEC     0       / Variable temporal
+TEMP_GCD,   DEC     0       / Variable temporal para GCD
+DIVIDEND,   DEC     0       / Dividendo para cálculo de módulo
+DIVISOR,    DEC     0       / Divisor para cálculo de módulo
+QUOTIENT,   DEC     0       / Cociente para cálculo de módulo
+REMAINDER,  DEC     0       / Resto para cálculo de módulo
+RESULT,     DEC     0       / Resultado de la división
+ZERO,       DEC     0       / Constante 0
+ONE,        DEC     1       / Constante 1
+CASOS,      DEC     0       / Número total de casos
+CONT,       DEC     0       / Contador de casos procesados
+            END             / Fin del programa

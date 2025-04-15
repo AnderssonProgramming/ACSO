@@ -1,0 +1,266 @@
+/ Programa para calcular fracciones egipcias
+            ORG     100     / Iniciar programa en dirección 100
+START,      INPUT           / Leer el número de casos
+            STORE   CASOS   / Guardar el número de casos
+            CLEAR           / Asegurar que AC esté en 0
+            STORE   CONT    / Inicializar contador de casos en 0
+MAIN_LOOP,  LOAD    CONT    / Cargar el contador de casos
+            SUBT    CASOS   / Restar casos totales del contador
+            SKIPCOND 000    / Si CONT - CASOS < 0, continuar el ciclo
+            JUMP    DONE    / Si no, terminar programa
+            
+            / Leer numerador y denominador
+            INPUT           / Leer numerador
+            STORE   NUM     / Guardar numerador
+            INPUT           / Leer denominador
+            STORE   DEN     / Guardar denominador
+            
+            / Simplificar la fracción inicial
+            LOAD    NUM
+            STORE   A
+            LOAD    DEN
+            STORE   B
+            JNS     GCD     / Calcular MCD(NUM, DEN)
+            STORE   GCD_VAL / Guardar MCD
+            
+            LOAD    NUM
+            STORE   DIVIDEND
+            LOAD    GCD_VAL
+            STORE   DIVISOR
+            JNS     DIV     / Dividir numerador por MCD
+            STORE   NUM     / Actualizar numerador simplificado
+            
+            LOAD    DEN
+            STORE   DIVIDEND
+            LOAD    GCD_VAL
+            STORE   DIVISOR
+            JNS     DIV     / Dividir denominador por MCD
+            STORE   DEN     / Actualizar denominador simplificado
+            
+            / Iniciar el proceso de fracción egipcia
+FRAC_LOOP,  LOAD    NUM     / Cargar numerador
+            SKIPCOND 400    / Si numerador = 0, terminar
+            JUMP    CONTINUE_FRAC
+            LOAD    ZERO    / Cargar 0 para indicar fin de fracción
+            OUTPUT          / Imprimir 0
+            JUMP    NEXT_CASE
+            
+CONTINUE_FRAC, LOAD DEN     / Cargar denominador
+            STORE   DIVIDEND / Preparar para división
+            LOAD    NUM     / Cargar numerador
+            STORE   DIVISOR  / Preparar para división
+            JNS     DIV     / Calcular denominador/numerador
+            STORE   QUOTIENT / Guardar resultado (q)
+            
+            / Calcular residuo (denominador % numerador)
+            LOAD    DEN
+            STORE   DIVIDEND
+            LOAD    NUM
+            STORE   DIVISOR
+            JNS     MOD
+            STORE   REMAINDER
+            
+            / Verificar si es una fracción unitaria
+            SKIPCOND 400    / Si residuo = 0, es fracción unitaria
+            JUMP    NOT_UNIT_FRAC
+            
+            / Es una fracción unitaria, mostrar denominador y terminar
+            LOAD    DEN     / Cargar denominador
+            OUTPUT          / Imprimir denominador
+            LOAD    ZERO    / Cargar 0 para indicar fin de fracción
+            OUTPUT          / Imprimir 0
+            JUMP    NEXT_CASE
+            
+            / No es una fracción unitaria, calcular siguiente fracción unitaria
+NOT_UNIT_FRAC, LOAD QUOTIENT
+            ADD     ONE     / Calcular q + 1
+            STORE   UNIT_DEN / Guardar denominador de la fracción unitaria
+            OUTPUT          / Imprimir denominador de la fracción unitaria
+            
+            / Calcular numerador * unit_den
+            LOAD    NUM
+            STORE   A
+            LOAD    UNIT_DEN
+            STORE   B
+            JNS     MULT
+            STORE   NUM_UNIT / Guardar num * unit_den
+            
+            / Calcular denominador * unit_den
+            LOAD    DEN
+            STORE   A
+            LOAD    UNIT_DEN
+            STORE   B
+            JNS     MULT
+            STORE   DEN_UNIT / Guardar den * unit_den
+            
+            / Calcular num_unit - den
+            LOAD    NUM_UNIT
+            SUBT    DEN
+            STORE   NEW_NUM / Guardar nuevo numerador
+            
+            / Actualizar para la siguiente iteración
+            LOAD    NEW_NUM
+            STORE   NUM     / Nuevo numerador
+            LOAD    DEN_UNIT
+            STORE   DEN     / Nuevo denominador
+            
+            / Simplificar la fracción
+            LOAD    NUM
+            STORE   A
+            LOAD    DEN
+            STORE   B
+            JNS     GCD     / Calcular MCD(NUM, DEN)
+            STORE   GCD_VAL / Guardar MCD
+            
+            / Solo simplificar si MCD > 1
+            LOAD    GCD_VAL
+            SUBT    ONE
+            SKIPCOND 000    / Si GCD_VAL <= 1, saltar simplificación
+            JUMP    DO_SIMPLIFY
+            JUMP    FRAC_LOOP
+            
+DO_SIMPLIFY, LOAD NUM
+            STORE   DIVIDEND
+            LOAD    GCD_VAL
+            STORE   DIVISOR
+            JNS     DIV     / Dividir numerador por MCD
+            STORE   NUM     / Actualizar numerador simplificado
+            
+            LOAD    DEN
+            STORE   DIVIDEND
+            LOAD    GCD_VAL
+            STORE   DIVISOR
+            JNS     DIV     / Dividir denominador por MCD
+            STORE   DEN     / Actualizar denominador simplificado
+            
+            JUMP    FRAC_LOOP / Continuar con la siguiente fracción unitaria
+            
+NEXT_CASE,  LOAD    CONT    / Incrementar contador y continuar
+            ADD     ONE
+            STORE   CONT
+            JUMP    MAIN_LOOP
+            
+/ Subrutina para calcular el Máximo Común Divisor (Algoritmo de Euclides)
+GCD,        HEX     0       / Punto de retorno para JNS
+            LOAD    A 
+            SKIPCOND 400    / Si A = 0, MCD = B
+            JUMP    CHECK_B
+            LOAD    B
+            JUMPI   GCD     / Retornar B
+            
+CHECK_B,    LOAD    B
+            SKIPCOND 400    / Si B = 0, MCD = A
+            JUMP    GCD_LOOP
+            LOAD    A
+            JUMPI   GCD     / Retornar A
+                
+GCD_LOOP,   LOAD    A
+            SUBT    B
+            SKIPCOND 000    / Si A < B, intercambiar
+            JUMP    A_GTE_B
+            
+            / Intercambiar A y B
+            LOAD    A
+            STORE   TEMP_GCD
+            LOAD    B
+            STORE   A
+            LOAD    TEMP_GCD
+            STORE   B
+            
+A_GTE_B,    LOAD    A
+            STORE   DIVIDEND
+            LOAD    B
+            STORE   DIVISOR
+            JNS     MOD     / Calcular A mod B
+            STORE   TEMP_GCD / Guardar A mod B
+            
+            LOAD    B       / A = B
+            STORE   A
+            LOAD    TEMP_GCD / B = A mod B
+            STORE   B
+            SKIPCOND 400    / Si B = 0, terminar
+            JUMP    GCD_LOOP
+            LOAD    A       / Resultado = A
+            JUMPI   GCD     / Retornar
+
+/ Subrutina para división entera (DIVIDEND / DIVISOR)
+DIV,        HEX     0       / Punto de retorno para JNS
+            CLEAR
+            STORE   RESULT  / Inicializar resultado en 0
+            
+DIV_LOOP,   LOAD    DIVIDEND
+            SUBT    DIVISOR
+            SKIPCOND 000    / Si DIVIDEND < DIVISOR, terminar
+            JUMP    CONTINUE_DIV
+            LOAD    RESULT
+            JUMPI   DIV     / Retornar resultado
+            
+CONTINUE_DIV, STORE DIVIDEND
+            LOAD    RESULT
+            ADD     ONE
+            STORE   RESULT
+            JUMP    DIV_LOOP
+
+/ Subrutina para módulo (DIVIDEND % DIVISOR)
+MOD,        HEX     0       / Punto de retorno para JNS
+MOD_LOOP,   LOAD    DIVIDEND
+            SUBT    DIVISOR
+            SKIPCOND 000    / Si DIVIDEND < DIVISOR, terminar
+            JUMP    CONTINUE_MOD
+            LOAD    DIVIDEND
+            JUMPI   MOD     / Retornar resultado (DIVIDEND)
+            
+CONTINUE_MOD, STORE DIVIDEND
+            JUMP    MOD_LOOP
+
+/ Subrutina para multiplicación (A * B)
+MULT,       HEX     0       / Punto de retorno para JNS
+            CLEAR
+            STORE   RESULT  / Inicializar resultado en 0
+            LOAD    B
+            SKIPCOND 400    / Si B = 0, resultado = 0
+            JUMP    MULT_LOOP
+            CLEAR
+            JUMPI   MULT    / Retornar 0
+            
+MULT_LOOP,  LOAD    B
+            STORE   COUNT   / Contador para multiplicación
+            
+MULT_INNER, LOAD    COUNT
+            SKIPCOND 400    / Si COUNT = 0, terminar
+            JUMP    CONT_MULT
+            LOAD    RESULT
+            JUMPI   MULT    / Retornar resultado
+            
+CONT_MULT,  LOAD    RESULT
+            ADD     A       / Sumar A al resultado
+            STORE   RESULT
+            LOAD    COUNT
+            SUBT    ONE     / Decrementar contador
+            STORE   COUNT
+            JUMP    MULT_INNER
+            
+DONE,       HALT            / Terminar programa
+
+/ Variables
+NUM,        DEC     0       / Numerador actual
+DEN,        DEC     0       / Denominador actual
+UNIT_DEN,   DEC     0       / Denominador de la fracción unitaria
+NUM_UNIT,   DEC     0       / Numerador después de calcular con fracción unitaria
+DEN_UNIT,   DEC     0       / Denominador después de calcular con fracción unitaria
+NEW_NUM,    DEC     0       / Nuevo numerador después de la resta
+QUOTIENT,   DEC     0       / Cociente de la división
+REMAINDER,  DEC     0       / Resto de la división
+GCD_VAL,    DEC     1       / Valor del MCD (inicializado en 1)
+TEMP_GCD,   DEC     0       / Variable temporal para GCD
+A,          DEC     0       / Variable para operaciones
+B,          DEC     0       / Variable para operaciones
+DIVIDEND,   DEC     0       / Dividendo para cálculo de módulo
+DIVISOR,    DEC     0       / Divisor para cálculo de módulo
+RESULT,     DEC     0       / Resultado de operaciones
+COUNT,      DEC     0       / Contador para multiplicación
+ZERO,       DEC     0       / Constante 0
+ONE,        DEC     1       / Constante 1
+CASOS,      DEC     0       / Número total de casos
+CONT,       DEC     0       / Contador de casos procesados
+            END             / Fin del programa

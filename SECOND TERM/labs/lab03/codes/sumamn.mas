@@ -1,0 +1,57 @@
+/ Programa para calcular la suma desde m hasta n (inclusive)
+
+            ORG     100     / Iniciar programa en dirección 100
+START,      INPUT           / Leer el número de casos
+            STORE   CASOS   / Guardar el número de casos
+            CLEAR            / Asegurar que AC esté en 0
+            STORE   CONT    / Inicializar contador de casos en 0
+
+LOOP,       LOAD    CONT    / Cargar el contador de casos
+            SUBT    CASOS   / Restar casos totales del contador
+            SKIPCOND 000    / Si CONT - CASOS < 0, continuar el ciclo
+            JUMP    DONE    / Si no, terminar programa
+            
+            INPUT           / Leer número m
+            STORE   M       / Guardar número m
+            STORE   CURR    / Inicializar número actual con m
+            
+            INPUT           / Leer número n
+            STORE   N       / Guardar número n
+            
+            CLEAR           / Inicializar suma en 0
+            STORE   SUMA
+
+SUMAR_LOOP, LOAD    CURR    / Cargar número actual
+            ADD     SUMA    / Añadir a la suma
+            STORE   SUMA    / Guardar suma actualizada
+            
+            LOAD    CURR    / Cargar número actual
+            ADD     UNO     / Incrementar en 1
+            STORE   CURR    / Guardar número actualizado
+            
+            SUBT    N       / Comparar con n
+            SUBT    UNO     / Restar 1 para verificar si hemos excedido n
+            SKIPCOND 000    / Si CURR - N - 1 < 0, continuar sumando
+            JUMP    PRINT_RESULT / Si no, imprimir resultado
+
+            JUMP    SUMAR_LOOP   / Continuar bucle de suma
+
+PRINT_RESULT, LOAD  SUMA    / Cargar resultado
+            OUTPUT          / Imprimir suma
+            
+            LOAD    CONT    / Cargar contador de casos
+            ADD     UNO     / Incrementar contador
+            STORE   CONT    / Guardar contador actualizado
+            JUMP    LOOP    / Volver al ciclo principal
+
+DONE,       HALT            / Terminar programa
+
+/ Variables
+M,          DEC     0       / Número m (inicio del rango)
+N,          DEC     0       / Número n (fin del rango)
+CURR,       DEC     0       / Número actual en el ciclo
+SUMA,       DEC     0       / Suma acumulada
+CASOS,      DEC     0       / Número total de casos
+CONT,       DEC     0       / Contador de casos procesados
+UNO,        DEC     1       / Constante 1
+            END             / Fin del programa
