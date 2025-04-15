@@ -55,7 +55,7 @@ This repository contains all the course materials for **Computer Architecture & 
 ## 🧰 Tech Stack & Tools
 
 - **Virtual Machines:**  
-  Platforms for installing and configuring Linux and Windows operating systems to have Solaris, Windows Server(GUI, without GUI) and Slackware VMs.
+  Platforms for installing and configuring Linux and Windows operating systems to have Solaris, Windows Server(GUI, without GUI) and Slackware VMs, using Virtual Box and VMWare Workstation Pro.
 - **Shell Scripting, and Python:**
   Different shells to program into Solaris and Windows Server environments, and Python codes to solve binary problems.  
 - **Supplementary Software:**  
@@ -69,10 +69,12 @@ This repository contains all the course materials for **Computer Architecture & 
   <img src="https://happyware.com/media/image/c8/a2/59/Windows-Server.png" width="80" title="Windows Logo"/>
   <img src="https://danielmaldonado.com.ar/wp-content/uploads/2021/05/logo-de-linux-by-Vexels.png" width="80" title="Linux Logo"/>
   <img src="https://upload.wikimedia.org/wikipedia/commons/c/c3/Python-logo-notext.svg" width="80" title="Python Logo"/>
-  <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTC-gwee_9e_EtkamiqHKlSNYDWffhGx741Yg&s" width="90" title="Escuela Colombiana de Ingeniería Julio Garavito" style="margin-left: 20px;"/>
   <img src="https://www.arm.com/-/media/global/logos/arm-logo/Corporate%20Logo%20Guidelines-2025/Arm_Brand_Logo_Guidelines_500x233px_01.png?h=233&w=500&rev=354c602c9cf84c25a0fdc88dd2863b76&hash=289F00948D3D2420CCB2DDC326AAB23521CF35FC" width="80" title="ARM Logo"/>
   <img src="https://i0.wp.com/imgs.hipertextual.com/wp-content/uploads/2010/08/slackware_logo.png?fit=300%2C300&quality=50&strip=all&ssl=1" width="100" title="Slackware Logo"/>
   <img src="https://i.blogs.es/12ffb4/solaris_logo/1366_2000.png" width="100" title="Solaris Logo"/>
+  <img src="https://upload.wikimedia.org/wikipedia/commons/d/d5/Virtualbox_logo.png" width="100" title="Virtual Box Logo"/>
+  <img src="https://live.mrf.io/statics/i/ps/www.muylinux.com/wp-content/uploads/2015/08/Nuevas-versiones-del-software-de-virtualizaci%C3%B3n-VMware.jpg?width=1200&enable=upscale" width="100" title="VMWare Logo"/>
+  <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTC-gwee_9e_EtkamiqHKlSNYDWffhGx741Yg&s" width="90" title="Escuela Colombiana de Ingeniería Julio Garavito" style="margin-left: 20px;"/>
   
 </p>
 
