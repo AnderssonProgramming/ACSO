@@ -1,0 +1,9 @@
+CHIP Sub36 {
+    IN a2[12], a1[12], a0[12], b2[12], b1[12], b0[12];
+    OUT out2[12], out1[12], out0[12];
+    
+    PARTS:
+    Negate36(in2=b2, in1=b1, in0=b0, out2=negb2, out1=negb1, out0=negb0);
+    Add36(a2=a2, a1=a1, a0=a0, b2=negb2, b1=negb1, b0=negb0, 
+          out2=out2, out1=out1, out0=out0);
+}

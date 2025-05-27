@@ -1,0 +1,9 @@
+CHIP Register36 {
+    IN in2[12], in1[12], in0[12], load;
+    OUT out2[12], out1[12], out0[12];
+    
+    PARTS:
+    Register12(in=in0, load=load, out=out0);
+    Register12(in=in1, load=load, out=out1);
+    Register12(in=in2, load=load, out=out2);
+}

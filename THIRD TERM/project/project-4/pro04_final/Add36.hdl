@@ -1,0 +1,9 @@
+CHIP Add36 {
+    IN a2[12], a1[12], a0[12], b2[12], b1[12], b0[12];
+    OUT out2[12], out1[12], out0[12];
+    
+    PARTS:
+    Add12(a=a0, b=b0, cin=false, out=out0, cout=c01);
+    Add12(a=a1, b=b1, cin=c01, out=out1, cout=c12);
+    Add12(a=a2, b=b2, cin=c12, out=out2, cout=overflow);
+}

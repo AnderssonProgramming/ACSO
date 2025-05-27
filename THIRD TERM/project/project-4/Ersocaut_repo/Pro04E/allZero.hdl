@@ -1,0 +1,43 @@
+CHIP allZero{
+    IN in[16],zero;
+    OUT out;
+
+    PARTS:
+        //Compare
+        Or(a=in[0], b=zero, out=s1);
+        Or(a=in[1], b=zero, out=s2);
+        Or(a=in[2], b=zero, out=s3);
+        Or(a=in[3], b=zero, out=s4);
+        Or(a=in[4], b=zero, out=s5);
+        Or(a=in[5], b=zero, out=s6);
+        Or(a=in[6], b=zero, out=s7);
+        Or(a=in[7], b=zero, out=s8);
+        Or(a=in[8], b=zero, out=s9);
+        Or(a=in[9], b=zero, out=s10);
+        Or(a=in[10], b=zero, out=s11);
+        Or(a=in[11], b=zero, out=s12);
+        Or(a=in[12], b=zero, out=s13);
+        Or(a=in[13], b=zero, out=s14);
+        Or(a=in[14], b=zero, out=s15);
+        Or(a=in[15], b=zero, out=s16);
+
+        //Output
+        Or(a=s1, b=s2, out=o1);
+        Or(a=o1, b=s3, out=o2);
+        Or(a=o2, b=s4, out=o3);
+        Or(a=o3, b=s5, out=o4);
+        Or(a=o4, b=s6, out=o5);
+        Or(a=o5, b=s7, out=o6);
+        Or(a=o6, b=s8, out=o7);
+        Or(a=o7, b=s9, out=o8);
+        Or(a=o8, b=s10, out=o9);
+        Or(a=o9, b=s11, out=o10);
+        Or(a=o10, b=s12, out=o11);
+        Or(a=o11, b=s13, out=o12);
+        Or(a=o12, b=s14, out=o13);
+        Or(a=o13, b=s15, out=o14);
+        Or(a=o14, b=s16, out=o15);
+
+        //Final
+        Not(in=o15, out=out);
+}

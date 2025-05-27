@@ -1,0 +1,114 @@
+/**
+ * Andersson David Sánchez Méndez
+ * Memory of 32 positions x 36 bits
+ * Address: 5 bits (a)
+ * Input: 3 vectors of 12 bits (in2, in1, in0)
+ * Output: 3 vectors of 12 bits (out2, out1, out0)
+ * Write control: 1 bit (w)
+ */
+
+CHIP Memory {
+    IN a[5], in2[12], in1[12], in0[12], w;
+    OUT out2[12], out1[12], out0[12];
+
+    PARTS:
+    DMux4Way(in=w, sel=a[3..4], a=w0, b=w1, c=w2, d=w3);
+
+    // Block 0 (addresses 0-7) - use w0
+    DMux8Way(in=w0, sel=a[0..2], a=sel00, b=sel01, c=sel02, d=sel03, e=sel04, f=sel05, g=sel06, h=sel07);
+    Register36(in2=in2, in1=in1, in0=in0, load=sel00, out2=r002, out1=r001, out0=r000);
+    Register36(in2=in2, in1=in1, in0=in0, load=sel01, out2=r012, out1=r011, out0=r010);
+    Register36(in2=in2, in1=in1, in0=in0, load=sel02, out2=r022, out1=r021, out0=r020);
+    Register36(in2=in2, in1=in1, in0=in0, load=sel03, out2=r032, out1=r031, out0=r030);
+    Register36(in2=in2, in1=in1, in0=in0, load=sel04, out2=r042, out1=r041, out0=r040);
+    Register36(in2=in2, in1=in1, in0=in0, load=sel05, out2=r052, out1=r051, out0=r050);
+    Register36(in2=in2, in1=in1, in0=in0, load=sel06, out2=r062, out1=r061, out0=r060);
+    Register36(in2=in2, in1=in1, in0=in0, load=sel07, out2=r072, out1=r071, out0=r070);
+    
+    // Block 1 (addresses 8-15) - use w1
+    DMux8Way(in=w1, sel=a[0..2], a=sel08, b=sel09, c=sel10, d=sel11, e=sel12, f=sel13, g=sel14, h=sel15);
+    Register36(in2=in2, in1=in1, in0=in0, load=sel08, out2=r082, out1=r081, out0=r080);
+    Register36(in2=in2, in1=in1, in0=in0, load=sel09, out2=r092, out1=r091, out0=r090);
+    Register36(in2=in2, in1=in1, in0=in0, load=sel10, out2=r102, out1=r101, out0=r100);
+    Register36(in2=in2, in1=in1, in0=in0, load=sel11, out2=r112, out1=r111, out0=r110);
+    Register36(in2=in2, in1=in1, in0=in0, load=sel12, out2=r122, out1=r121, out0=r120);
+    Register36(in2=in2, in1=in1, in0=in0, load=sel13, out2=r132, out1=r131, out0=r130);
+    Register36(in2=in2, in1=in1, in0=in0, load=sel14, out2=r142, out1=r141, out0=r140);
+    Register36(in2=in2, in1=in1, in0=in0, load=sel15, out2=r152, out1=r151, out0=r150);
+    
+    // Block 2 (addresses 16-23) - use w2
+    DMux8Way(in=w2, sel=a[0..2], a=sel16, b=sel17, c=sel18, d=sel19, e=sel20, f=sel21, g=sel22, h=sel23);
+    Register36(in2=in2, in1=in1, in0=in0, load=sel16, out2=r162, out1=r161, out0=r160);
+    Register36(in2=in2, in1=in1, in0=in0, load=sel17, out2=r172, out1=r171, out0=r170);
+    Register36(in2=in2, in1=in1, in0=in0, load=sel18, out2=r182, out1=r181, out0=r180);
+    Register36(in2=in2, in1=in1, in0=in0, load=sel19, out2=r192, out1=r191, out0=r190);
+    Register36(in2=in2, in1=in1, in0=in0, load=sel20, out2=r202, out1=r201, out0=r200);
+    Register36(in2=in2, in1=in1, in0=in0, load=sel21, out2=r212, out1=r211, out0=r210);
+    Register36(in2=in2, in1=in1, in0=in0, load=sel22, out2=r222, out1=r221, out0=r220);
+    Register36(in2=in2, in1=in1, in0=in0, load=sel23, out2=r232, out1=r231, out0=r230);
+    
+    // Block 3 (addresses 24-31) - use w3
+    DMux8Way(in=w3, sel=a[0..2], a=sel24, b=sel25, c=sel26, d=sel27, e=sel28, f=sel29, g=sel30, h=sel31);
+    Register36(in2=in2, in1=in1, in0=in0, load=sel24, out2=r242, out1=r241, out0=r240);
+    Register36(in2=in2, in1=in1, in0=in0, load=sel25, out2=r252, out1=r251, out0=r250);
+    Register36(in2=in2, in1=in1, in0=in0, load=sel26, out2=r262, out1=r261, out0=r260);
+    Register36(in2=in2, in1=in1, in0=in0, load=sel27, out2=r272, out1=r271, out0=r270);
+    Register36(in2=in2, in1=in1, in0=in0, load=sel28, out2=r282, out1=r281, out0=r280);
+    Register36(in2=in2, in1=in1, in0=in0, load=sel29, out2=r292, out1=r291, out0=r290);
+    Register36(in2=in2, in1=in1, in0=in0, load=sel30, out2=r302, out1=r301, out0=r300);
+    Register36(in2=in2, in1=in1, in0=in0, load=sel31, out2=r312, out1=r311, out0=r310);
+
+    // Multiplexers to select the output
+    // First select within each block of 8
+    Mux8Way12(sel=a[0..2], 
+              a2=r002, a1=r001, a0=r000,
+              b2=r012, b1=r011, b0=r010,
+              c2=r022, c1=r021, c0=r020,
+              d2=r032, d1=r031, d0=r030,
+              e2=r042, e1=r041, e0=r040,
+              f2=r052, f1=r051, f0=r050,
+              g2=r062, g1=r061, g0=r060,
+              h2=r072, h1=r071, h0=r070,
+              out2=out02, out1=out01, out0=out00);
+              
+    Mux8Way12(sel=a[0..2], 
+              a2=r082, a1=r081, a0=r080,
+              b2=r092, b1=r091, b0=r090,
+              c2=r102, c1=r101, c0=r100,
+              d2=r112, d1=r111, d0=r110,
+              e2=r122, e1=r121, e0=r120,
+              f2=r132, f1=r131, f0=r130,
+              g2=r142, g1=r141, g0=r140,
+              h2=r152, h1=r151, h0=r150,
+              out2=out12, out1=out11, out0=out10);
+              
+    Mux8Way12(sel=a[0..2], 
+              a2=r162, a1=r161, a0=r160,
+              b2=r172, b1=r171, b0=r170,
+              c2=r182, c1=r181, c0=r180,
+              d2=r192, d1=r191, d0=r190,
+              e2=r202, e1=r201, e0=r200,
+              f2=r212, f1=r211, f0=r210,
+              g2=r222, g1=r221, g0=r220,
+              h2=r232, h1=r231, h0=r230,
+              out2=out22, out1=out21, out0=out20);
+              
+    Mux8Way12(sel=a[0..2], 
+              a2=r242, a1=r241, a0=r240,
+              b2=r252, b1=r251, b0=r250,
+              c2=r262, c1=r261, c0=r260,
+              d2=r272, d1=r271, d0=r270,
+              e2=r282, e1=r281, e0=r280,
+              f2=r292, f1=r291, f0=r290,
+              g2=r302, g1=r301, g0=r300,
+              h2=r312, h1=r311, h0=r310,
+              out2=out32, out1=out31, out0=out30);
+    
+    //  Select between the 4 blocks using a[3..4]
+    Mux4Way12(sel=a[3..4],
+              a2=out02, a1=out01, a0=out00,
+              b2=out12, b1=out11, b0=out10,
+              c2=out22, c1=out21, c0=out20,
+              d2=out32, d1=out31, d0=out30,
+              out2=out2, out1=out1, out0=out0);
+}

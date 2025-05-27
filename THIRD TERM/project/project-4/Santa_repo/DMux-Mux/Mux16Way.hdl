@@ -1,0 +1,32 @@
+// File name: tools/builtIn/Mux16Way.hdl
+
+/** 
+ * Multiplexor. If sel == 0000 then out = a
+                If sel == 0001 then out = b
+                If sel == 0010 then out = c
+                If sel == 0011 then out = d
+                If sel == 0100 then out = e
+                If sel == 0101 then out = f
+                If sel == 0110 then out = g
+                If sel == 0111 then out = h
+                If sel == 1000 then out = i
+                If sel == 1001 then out = j
+                If sel == 1010 then out = k
+                If sel == 1011 then out = l
+                If sel == 1100 then out = m
+                If sel == 1101 then out = n
+                If sel == 1110 then out = o
+                If sel == 1111 then out = p.
+
+ */
+
+CHIP Mux16Way {
+
+    IN  a, b, c, d, e, f, g, h, i, j, k, l, m, n, o, p, sel[4];
+    OUT out;
+
+    BUILTIN Mux16Way;
+}
+
+
+

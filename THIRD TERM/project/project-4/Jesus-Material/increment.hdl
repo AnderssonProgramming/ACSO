@@ -1,0 +1,52 @@
+// ESCUELA COLOMBIANA DE INGENIERÍA JULIO GARAVITO
+// Carrera / Semestre: Ingeniería de Sistemas / 6to Semestre
+// Asignatura: Arquitectura Computacional y Sistemas Operativos (ACSO)
+// Nombre: Jesús Alfonso Pinzón Vega
+// Fecha: 2024/12/07
+
+// Circuito: "increment.hdl"
+// Función: Realiza el incremento en 1 de un número de 32 bits.
+// Entradas: a1[16], a0[16] (palabra de 32 bits en dos vectores de 16 bits)
+// Salidas: b1[16], b0[16] (resultado del incremento de la entrada)
+
+CHIP increment {
+    IN a1[16], a0[16];
+    OUT b1[16], b0[16];
+
+    PARTS:
+    // Incremento de la parte inferior (16 bits menos significativos)
+    HalfAdder(a=a0[0], b=true, sum=b0[0], carry=carry0);
+    HalfAdder(a=a0[1], b=carry0, sum=b0[1], carry=carry1);
+    HalfAdder(a=a0[2], b=carry1, sum=b0[2], carry=carry2);
+    HalfAdder(a=a0[3], b=carry2, sum=b0[3], carry=carry3);
+    HalfAdder(a=a0[4], b=carry3, sum=b0[4], carry=carry4);
+    HalfAdder(a=a0[5], b=carry4, sum=b0[5], carry=carry5);
+    HalfAdder(a=a0[6], b=carry5, sum=b0[6], carry=carry6);
+    HalfAdder(a=a0[7], b=carry6, sum=b0[7], carry=carry7);
+    HalfAdder(a=a0[8], b=carry7, sum=b0[8], carry=carry8);
+    HalfAdder(a=a0[9], b=carry8, sum=b0[9], carry=carry9);
+    HalfAdder(a=a0[10], b=carry9, sum=b0[10], carry=carry10);
+    HalfAdder(a=a0[11], b=carry10, sum=b0[11], carry=carry11);
+    HalfAdder(a=a0[12], b=carry11, sum=b0[12], carry=carry12);
+    HalfAdder(a=a0[13], b=carry12, sum=b0[13], carry=carry13);
+    HalfAdder(a=a0[14], b=carry13, sum=b0[14], carry=carry14);
+    HalfAdder(a=a0[15], b=carry14, sum=b0[15], carry=carry15);
+
+    // Incremento de la parte superior (16 bits más significativos)
+    HalfAdder(a=a1[0], b=carry15, sum=b1[0], carry=carry16);
+    HalfAdder(a=a1[1], b=carry16, sum=b1[1], carry=carry17);
+    HalfAdder(a=a1[2], b=carry17, sum=b1[2], carry=carry18);
+    HalfAdder(a=a1[3], b=carry18, sum=b1[3], carry=carry19);
+    HalfAdder(a=a1[4], b=carry19, sum=b1[4], carry=carry20);
+    HalfAdder(a=a1[5], b=carry20, sum=b1[5], carry=carry21);
+    HalfAdder(a=a1[6], b=carry21, sum=b1[6], carry=carry22);
+    HalfAdder(a=a1[7], b=carry22, sum=b1[7], carry=carry23);
+    HalfAdder(a=a1[8], b=carry23, sum=b1[8], carry=carry24);
+    HalfAdder(a=a1[9], b=carry24, sum=b1[9], carry=carry25);
+    HalfAdder(a=a1[10], b=carry25, sum=b1[10], carry=carry26);
+    HalfAdder(a=a1[11], b=carry26, sum=b1[11], carry=carry27);
+    HalfAdder(a=a1[12], b=carry27, sum=b1[12], carry=carry28);
+    HalfAdder(a=a1[13], b=carry28, sum=b1[13], carry=carry29);
+    HalfAdder(a=a1[14], b=carry29, sum=b1[14], carry=carry30);
+    HalfAdder(a=a1[15], b=carry30, sum=b1[15], carry=carry31);
+}

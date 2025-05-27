@@ -1,0 +1,17 @@
+CHIP Zero12 {
+    OUT out[12];
+    
+    PARTS:
+    And(a=false, b=false, out=out[0]);
+    And(a=false, b=false, out=out[1]);
+    And(a=false, b=false, out=out[2]);
+    And(a=false, b=false, out=out[3]);
+    And(a=false, b=false, out=out[4]);
+    And(a=false, b=false, out=out[5]);
+    And(a=false, b=false, out=out[6]);
+    And(a=false, b=false, out=out[7]);
+    And(a=false, b=false, out=out[8]);
+    And(a=false, b=false, out=out[9]);
+    And(a=false, b=false, out=out[10]);
+    And(a=false, b=false, out=out[11]);
+}

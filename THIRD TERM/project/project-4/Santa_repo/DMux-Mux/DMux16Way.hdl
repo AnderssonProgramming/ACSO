@@ -1,0 +1,21 @@
+// File name: tools/builtIn/DMux16Way.hdl
+
+/**
+ * 16-way demultiplexor.  
+ * {a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p} = {in,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0} if sel == 0000
+ *                                     {0,in,0,0,0,0,0,0,0,0,0,0,0,0,0,0} if sel == 0001
+ *                                     etc.
+ *                                     {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,in} if sel == 1111
+ */
+
+
+CHIP DMux16Way {
+
+    IN  in, sel[4];
+    OUT a, b, c, d, e, f, g, h,
+        i, j, k, l, m, n, o, p;
+
+    BUILTIN DMux16Way;
+}
+
+

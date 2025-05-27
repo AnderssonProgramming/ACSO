@@ -1,0 +1,10 @@
+CHIP Bit48
+{
+    IN a[16], b[16], c[16], load;
+    OUT d[16], e[16], f[16];
+
+    PARTS:
+    Bit16(in=a, load=load, out=d);
+    Bit16(in=b, load=load, out=e);
+    Bit16(in=c, load=load, out=f);
+}

@@ -1,0 +1,22 @@
+CHIP Inc36 {
+    IN in2[12], in1[12], in0[12];
+    OUT out2[12], out1[12], out0[12];
+    
+    PARTS:
+    // Sumar 1 al bit menos significativo
+    Add12(a=in0, b[0]=true, b[1]=false, b[2]=false, b[3]=false, 
+          b[4]=false, b[5]=false, b[6]=false, b[7]=false,
+          b[8]=false, b[9]=false, b[10]=false, b[11]=false,
+          cin=false, out=out0, cout=c01);
+          
+    // Propagar carry
+    Add12(a=in1, b[0]=false, b[1]=false, b[2]=false, b[3]=false,
+          b[4]=false, b[5]=false, b[6]=false, b[7]=false,
+          b[8]=false, b[9]=false, b[10]=false, b[11]=false,
+          cin=c01, out=out1, cout=c12);
+          
+    Add12(a=in2, b[0]=false, b[1]=false, b[2]=false, b[3]=false,
+          b[4]=false, b[5]=false, b[6]=false, b[7]=false,
+          b[8]=false, b[9]=false, b[10]=false, b[11]=false,
+          cin=c12, out=out2, cout=overflow);
+}

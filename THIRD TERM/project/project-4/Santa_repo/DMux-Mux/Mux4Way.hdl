@@ -1,0 +1,17 @@
+// File name: tools/builtIn/Mux4Way.hdl
+
+/** 
+ * Multiplexor. If sel == 00 then out = a
+                If sel == 01 then out = b
+                If sel == 10 then out = c
+                If sel == 11 then out = d.
+ */
+
+CHIP Mux4Way {
+
+    IN  a, b, c, d, sel[2];
+    OUT out;
+
+    BUILTIN Mux4Way;
+}
+

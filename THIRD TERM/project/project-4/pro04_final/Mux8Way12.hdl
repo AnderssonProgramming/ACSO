@@ -1,0 +1,32 @@
+CHIP Mux8Way12 {
+    IN sel[3], 
+       a2[12], a1[12], a0[12],
+       b2[12], b1[12], b0[12],
+       c2[12], c1[12], c0[12],
+       d2[12], d1[12], d0[12],
+       e2[12], e1[12], e0[12],
+       f2[12], f1[12], f0[12],
+       g2[12], g1[12], g0[12],
+       h2[12], h1[12], h0[12];
+    OUT out2[12], out1[12], out0[12];
+    
+    PARTS:
+    Mux4Way12(sel=sel[0..1],
+              a2=a2, a1=a1, a0=a0,
+              b2=b2, b1=b1, b0=b0,
+              c2=c2, c1=c1, c0=c0,
+              d2=d2, d1=d1, d0=d0,
+              out2=mux02, out1=mux01, out0=mux00);
+              
+    Mux4Way12(sel=sel[0..1],
+              a2=e2, a1=e1, a0=e0,
+              b2=f2, b1=f1, b0=f0,
+              c2=g2, c1=g1, c0=g0,
+              d2=h2, d1=h1, d0=h0,
+              out2=mux12, out1=mux11, out0=mux10);
+              
+    Mux12(sel=sel[2], 
+          a2=mux02, a1=mux01, a0=mux00,
+          b2=mux12, b1=mux11, b0=mux10,
+          out2=out2, out1=out1, out0=out0);
+}

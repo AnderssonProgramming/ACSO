@@ -1,0 +1,18 @@
+CHIP Replicate12 {
+    IN in;
+    OUT out[12];
+    
+    PARTS:
+    And(a=in, b=true, out=out[0]);
+    And(a=in, b=true, out=out[1]);
+    And(a=in, b=true, out=out[2]);
+    And(a=in, b=true, out=out[3]);
+    And(a=in, b=true, out=out[4]);
+    And(a=in, b=true, out=out[5]);
+    And(a=in, b=true, out=out[6]);
+    And(a=in, b=true, out=out[7]);
+    And(a=in, b=true, out=out[8]);
+    And(a=in, b=true, out=out[9]);
+    And(a=in, b=true, out=out[10]);
+    And(a=in, b=true, out=out[11]);
+}

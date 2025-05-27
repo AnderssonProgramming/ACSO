@@ -1,0 +1,47 @@
+CHIP Mux12 {
+    IN sel, a2[12], a1[12], a0[12], b2[12], b1[12], b0[12];
+    OUT out2[12], out1[12], out0[12];
+    
+    PARTS:
+    // Mux for out0
+    Mux(a=a0[0], b=b0[0], sel=sel, out=out0[0]);
+    Mux(a=a0[1], b=b0[1], sel=sel, out=out0[1]);
+    Mux(a=a0[2], b=b0[2], sel=sel, out=out0[2]);
+    Mux(a=a0[3], b=b0[3], sel=sel, out=out0[3]);
+    Mux(a=a0[4], b=b0[4], sel=sel, out=out0[4]);
+    Mux(a=a0[5], b=b0[5], sel=sel, out=out0[5]);
+    Mux(a=a0[6], b=b0[6], sel=sel, out=out0[6]);
+    Mux(a=a0[7], b=b0[7], sel=sel, out=out0[7]);
+    Mux(a=a0[8], b=b0[8], sel=sel, out=out0[8]);
+    Mux(a=a0[9], b=b0[9], sel=sel, out=out0[9]);
+    Mux(a=a0[10], b=b0[10], sel=sel, out=out0[10]);
+    Mux(a=a0[11], b=b0[11], sel=sel, out=out0[11]);
+    
+    // Mux for out1
+    Mux(a=a1[0], b=b1[0], sel=sel, out=out1[0]);
+    Mux(a=a1[1], b=b1[1], sel=sel, out=out1[1]);
+    Mux(a=a1[2], b=b1[2], sel=sel, out=out1[2]);
+    Mux(a=a1[3], b=b1[3], sel=sel, out=out1[3]);
+    Mux(a=a1[4], b=b1[4], sel=sel, out=out1[4]);
+    Mux(a=a1[5], b=b1[5], sel=sel, out=out1[5]);
+    Mux(a=a1[6], b=b1[6], sel=sel, out=out1[6]);
+    Mux(a=a1[7], b=b1[7], sel=sel, out=out1[7]);
+    Mux(a=a1[8], b=b1[8], sel=sel, out=out1[8]);
+    Mux(a=a1[9], b=b1[9], sel=sel, out=out1[9]);
+    Mux(a=a1[10], b=b1[10], sel=sel, out=out1[10]);
+    Mux(a=a1[11], b=b1[11], sel=sel, out=out1[11]);
+    
+    // Mux para out2
+    Mux(a=a2[0], b=b2[0], sel=sel, out=out2[0]);
+    Mux(a=a2[1], b=b2[1], sel=sel, out=out2[1]);
+    Mux(a=a2[2], b=b2[2], sel=sel, out=out2[2]);
+    Mux(a=a2[3], b=b2[3], sel=sel, out=out2[3]);
+    Mux(a=a2[4], b=b2[4], sel=sel, out=out2[4]);
+    Mux(a=a2[5], b=b2[5], sel=sel, out=out2[5]);
+    Mux(a=a2[6], b=b2[6], sel=sel, out=out2[6]);
+    Mux(a=a2[7], b=b2[7], sel=sel, out=out2[7]);
+    Mux(a=a2[8], b=b2[8], sel=sel, out=out2[8]);
+    Mux(a=a2[9], b=b2[9], sel=sel, out=out2[9]);
+    Mux(a=a2[10], b=b2[10], sel=sel, out=out2[10]);
+    Mux(a=a2[11], b=b2[11], sel=sel, out=out2[11]);
+}

@@ -1,0 +1,56 @@
+/**
+ * Proyecto 1 | Daniel Antonio Santanilla | AU.hdl
+ * Implementar un circuito en HDL para la unidad aritmetica.
+ * input: 
+ *      CIin2[16], CIin1[16], CIin0[16], 
+ *      Ain2[16], Ain1[16], Ain0[16], 
+ *      SLin2[16], SLin1[16], SLin0[16], inst[3]
+ * output: 
+ *      CIout2[16], CIout1[16], CIout0[16], 
+ *      Aout2[16], Aout1[16], Aout0[16], 
+ *      SLout2[16], SLout1[16], SLout0[16]
+ *
+ * 000 CIout <- SLin
+ * 001 CIout <- CIin + SLin
+ * 010 Aout <- -SLin
+ * 011 SLout <- Ain
+ * 100 Aout <- Ain - SLin
+ * 101 Aout <- Ain - SLin
+ * 110 Si Ain < 0 entonces CIout ← CIin + 1
+ * 111 Ninguna
+ */
+
+CHIP AU
+{
+    IN CIin2[16], CIin1[16], CIin0[16],
+        Ain2[16], Ain1[16], Ain0[16], 
+        SLin2[16], SLin1[16], SLin0[16], inst[3];
+    OUT CIout2[16], CIout1[16], CIout0[16], 
+        Aout2[16], Aout1[16], Aout0[16], 
+        SLout2[16], SLout1[16], SLout0[16];
+
+    PARTS:
+    // 001
+    add(a2=CIin2, a1=CIin1, a0=CIin0, b2=SLin2, b1=SLin1, b0=SLin0, c2=sumCS2, c1=sumCS1, c0=sumCS0);
+    // 010
+    complement2(a2=SLin2, a1=SLin1, a0=SLin0, b2=complS2, b1=complS1, b0=complS0);
+    // 100 y 101
+    subtract(a2=Ain2, a1=Ain1, a0=Ain0, b2=SLin2, b1=SLin1, b0=SLin0, c2=subtAS2, c1=subtAS1, c0=subtAS0);
+    // 110 
+    increment(a2=CIin2, a1=CIin1, a0=CIin0, b2=incCI2, b1=incCI1, b0=incCI0);
+    And(a=Ain2[15], b=true, out=inst110);
+    Mux16(a=false, b=incCI2, sel=inst110, out=checkCI2);
+    Mux16(a=false, b=incCI1, sel=inst110, out=checkCI1);
+    Mux16(a=false, b=incCI0, sel=inst110, out=checkCI0);
+
+    
+    Mux8Way16(a=SLin2, b=sumCS2, c=false, d=false, e=false, f=false, g=checkCI2, h=false, sel=inst, out=CIout2);
+    Mux8Way16(a=SLin1, b=sumCS1, c=false, d=false, e=false, f=false, g=checkCI1, h=false, sel=inst, out=CIout1);
+    Mux8Way16(a=SLin0, b=sumCS0, c=false, d=false, e=false, f=false, g=checkCI0, h=false, sel=inst, out=CIout0);
+    Mux8Way16(a=false, b=false, c=complS2, d=false, e=subtAS2, f=subtAS2, g=false, h=false, sel=inst, out=Aout2);
+    Mux8Way16(a=false, b=false, c=complS1, d=false, e=subtAS1, f=subtAS1, g=false, h=false, sel=inst, out=Aout1);
+    Mux8Way16(a=false, b=false, c=complS0, d=false, e=subtAS0, f=subtAS0, g=false, h=false, sel=inst, out=Aout0);
+    Mux8Way16(a=false, b=false, c=false, d=Ain2, e=false, f=false, g=false, h=false, sel=inst, out=SLout2);
+    Mux8Way16(a=false, b=false, c=false, d=Ain1, e=false, f=false, g=false, h=false, sel=inst, out=SLout1);
+    Mux8Way16(a=false, b=false, c=false, d=Ain0, e=false, f=false, g=false, h=false, sel=inst, out=SLout0);
+}

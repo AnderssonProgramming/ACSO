@@ -1,0 +1,8 @@
+CHIP proyecto04B{
+    IN a[16];
+    OUT b[16];
+
+    PARTS:
+        Not16(in=a, out=n1);
+        Inc16(in=n1, out=b);
+}

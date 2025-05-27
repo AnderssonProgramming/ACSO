@@ -1,0 +1,27 @@
+// File name: tools/builtIn/DMux32Way.hdl
+
+/**
+ * 32-way demultiplexor.  
+ * {a,b,c,d,e,f,g,h,i,j,k ,l ,m ,n ,o ,p
+ *  q,r,s,t,u,v,w,x,y,z,aa,ab,ac,ad,ae,af} = {in,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+ *                                            0 ,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0} if sel == 00000
+ *                                           {0,in,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+ *                                            0,0 ,0,0,0,0,0,0,0,0,0,0,0,0,0,0} if sel == 00001
+ *                                           etc.
+ *                                           {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+ *                                            0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,in} if sel == 11111
+ */
+
+
+CHIP DMux32Way {
+
+    IN  in, sel[5];
+    OUT a, b, c,  d,  e,  f,  g,  h,
+        i, j, k,  l,  m,  n,  o,  p,
+        q, r, s,  t,  u,  v,  w,  x,
+        y, z, aa, ab, ac, ad, ae, af ;
+
+    BUILTIN DMux32Way;
+}
+
+

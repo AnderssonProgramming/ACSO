@@ -1,0 +1,23 @@
+// File name: tools/builtIn/Mux8Way.hdl
+
+/** 
+ * Multiplexor. If sel == 000 then out = a
+                If sel == 001 then out = b
+                If sel == 010 then out = c
+                If sel == 011 then out = d
+                If sel == 100 then out = e
+                If sel == 101 then out = f
+                If sel == 110 then out = g
+                If sel == 111 then out = h.
+
+ */
+
+CHIP Mux8Way {
+
+    IN  a, b, c, d, e, f, g, h, sel[3];
+    OUT out;
+
+    BUILTIN Mux8Way;
+}
+
+

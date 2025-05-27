@@ -1,0 +1,14 @@
+CHIP Mux32Way48
+{
+    IN a2[16], b2[16], c2[16], d2[16], e2[16], f2[16], g2[16], h2[16], i2[16], j2[16], k2[16], l2[16], m2[16], n2[16], o2[16], p2[16], q2[16], r2[16], s2[16], t2[16], u2[16], v2[16], w2[16], x2[16], y2[16], z2[16], aa2[16], ab2[16], ac2[16], ad2[16], ae2[16], af2[16], 
+       a1[16], b1[16], c1[16], d1[16], e1[16], f1[16], g1[16], h1[16], i1[16], j1[16], k1[16], l1[16], m1[16], n1[16], o1[16], p1[16], q1[16], r1[16], s1[16], t1[16], u1[16], v1[16], w1[16], x1[16], y1[16], z1[16], aa1[16], ab1[16], ac1[16], ad1[16], ae1[16], af1[16], 
+       a0[16], b0[16], c0[16], d0[16], e0[16], f0[16], g0[16], h0[16], i0[16], j0[16], k0[16], l0[16], m0[16], n0[16], o0[16], p0[16], q0[16], r0[16], s0[16], t0[16], u0[16], v0[16], w0[16], x0[16], y0[16], z0[16], aa0[16], ab0[16], ac0[16], ad0[16], ae0[16], af0[16], 
+       sel[5];
+
+    OUT out2[16], out1[16], out0[16];
+
+    PARTS:
+    Mux32Way16(a=a2, b=b2, c=c2, d=d2, e=e2, f=f2, g=g2, h=h2, i=i2, j=j2, k=k2, l=l2, m=m2, n=n2, o=o2, p=p2, q=q2, r=r2, s=s2, t=t2, u=u2, v=v2, w=w2, x=x2, y=y2, z=z2, aa=aa2, ab=ab2, ac=ac2, ad=ad2, ae=ae2, af=af2, sel=sel, out=out2);
+    Mux32Way16(a=a1, b=b1, c=c1, d=d1, e=e1, f=f1, g=g1, h=h1, i=i1, j=j1, k=k1, l=l1, m=m1, n=n1, o=o1, p=p1, q=q1, r=r1, s=s1, t=t1, u=u1, v=v1, w=w1, x=x1, y=y1, z=z1, aa=aa1, ab=ab1, ac=ac1, ad=ad1, ae=ae1, af=af1, sel=sel, out=out1);
+    Mux32Way16(a=a0, b=b0, c=c0, d=d0, e=e0, f=f0, g=g0, h=h0, i=i0, j=j0, k=k0, l=l0, m=m0, n=n0, o=o0, p=p0, q=q0, r=r0, s=s0, t=t0, u=u0, v=v0, w=w0, x=x0, y=y0, z=z0, aa=aa0, ab=ab0, ac=ac0, ad=ad0, ae=ae0, af=af0, sel=sel, out=out0);
+}

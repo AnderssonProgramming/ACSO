@@ -1,0 +1,50 @@
+// ESCUELA COLOMBIANA DE INGENIERÍA JULIO GARAVITO
+// Carrera / Semestre: Ingeniería de Sistemas / 6to Semestre
+// Asignatura: Arquitectura Computacional y Sistemas Operativos (ACSO)
+// Nombre: Jesús Alfonso Pinzón Vega
+// Fecha: 2024/12/07
+
+// Circuito: "complement1.hdl"
+// Función: Realiza el complemento a 1 de un número de 32 bits.
+// Entradas: a1[16], a0[16] (palabra de 32 bits en dos vectores de 16 bits)
+// Salidas: b1[16], b0[16] (complemento a 1 de la entrada)
+
+CHIP complement1 {
+    IN a1[16], a0[16];
+    OUT b1[16], b0[16];
+
+    PARTS:
+    Not(in=a1[0], out=b1[0]);
+    Not(in=a1[1], out=b1[1]);
+    Not(in=a1[2], out=b1[2]);
+    Not(in=a1[3], out=b1[3]);
+    Not(in=a1[4], out=b1[4]);
+    Not(in=a1[5], out=b1[5]);
+    Not(in=a1[6], out=b1[6]);
+    Not(in=a1[7], out=b1[7]);
+    Not(in=a1[8], out=b1[8]);
+    Not(in=a1[9], out=b1[9]);
+    Not(in=a1[10], out=b1[10]);
+    Not(in=a1[11], out=b1[11]);
+    Not(in=a1[12], out=b1[12]);
+    Not(in=a1[13], out=b1[13]);
+    Not(in=a1[14], out=b1[14]);
+    Not(in=a1[15], out=b1[15]);
+
+    Not(in=a0[0], out=b0[0]);
+    Not(in=a0[1], out=b0[1]);
+    Not(in=a0[2], out=b0[2]);
+    Not(in=a0[3], out=b0[3]);
+    Not(in=a0[4], out=b0[4]);
+    Not(in=a0[5], out=b0[5]);
+    Not(in=a0[6], out=b0[6]);
+    Not(in=a0[7], out=b0[7]);
+    Not(in=a0[8], out=b0[8]);
+    Not(in=a0[9], out=b0[9]);
+    Not(in=a0[10], out=b0[10]);
+    Not(in=a0[11], out=b0[11]);
+    Not(in=a0[12], out=b0[12]);
+    Not(in=a0[13], out=b0[13]);
+    Not(in=a0[14], out=b0[14]);
+    Not(in=a0[15], out=b0[15]);
+}

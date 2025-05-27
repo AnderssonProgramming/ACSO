@@ -1,0 +1,17 @@
+/**
+ * Proyecto 4 | Andersson David Sánchez Méndez | subtract.hdl
+ * Implementar un circuito en HDL que realice la 
+ * resta de dos numeros de 36 bits usando complemento a 2. 
+ * input: a2[12], a1[12], a0[12], b2[12], b1[12], b0[12]
+ * output: c2[12], c1[12], c0[12]
+ */
+
+CHIP subtract
+{
+    IN a2[12], a1[12], a0[12], b2[12], b1[12], b0[12];
+    OUT c2[12], c1[12], c0[12];
+
+    PARTS:
+    complement2(a2=b2, a1=b1, a0=b0, b2=bs2, b1=bs1, b0=bs0);
+    add(a2=a2, a1=a1, a0=a0, b2=bs2, b1=bs1, b0=bs0, c2=c2, c1=c1, c0=c0);
+}

@@ -1,0 +1,54 @@
+/**
+ * Proyecto 4 | Andersson David Sánchez Méndez | increment.hdl
+ * Implementar un circuito en HDL que realice el incremento 
+ * en uno de un numero de 36 bits. 
+ * input: a2[12], a1[12], a0[12]
+ * output: b2[12], b1[12], b0[12]
+ */
+
+CHIP increment
+{
+    IN a2[12], a1[12], a0[12];
+    OUT b2[12], b1[12], b0[12];
+
+    PARTS:
+    // Incrementando 1
+    HalfAdder(a=a0[0], b=true, sum=b0[0], carry=c0);
+    HalfAdder(a=a0[1], b=c0, sum=b0[1], carry=c1);
+    HalfAdder(a=a0[2], b=c1, sum=b0[2], carry=c2);
+    HalfAdder(a=a0[3], b=c2, sum=b0[3], carry=c3);
+    HalfAdder(a=a0[4], b=c3, sum=b0[4], carry=c4);
+    HalfAdder(a=a0[5], b=c4, sum=b0[5], carry=c5);
+    HalfAdder(a=a0[6], b=c5, sum=b0[6], carry=c6);
+    HalfAdder(a=a0[7], b=c6, sum=b0[7], carry=c7);
+    HalfAdder(a=a0[8], b=c7, sum=b0[8], carry=c8);
+    HalfAdder(a=a0[9], b=c8, sum=b0[9], carry=c9);
+    HalfAdder(a=a0[10], b=c9, sum=b0[10], carry=c10);
+    HalfAdder(a=a0[11], b=c10, sum=b0[11], carry=c11);
+
+    HalfAdder(a=a1[0], b=c15, sum=b1[0], carry=c12);
+    HalfAdder(a=a1[1], b=c12, sum=b1[1], carry=c17);
+    HalfAdder(a=a1[2], b=c17, sum=b1[2], carry=c18);
+    HalfAdder(a=a1[3], b=c17, sum=b1[3], carry=c19);
+    HalfAdder(a=a1[4], b=c18, sum=b1[4], carry=c20);
+    HalfAdder(a=a1[5], b=c20, sum=b1[5], carry=c21);
+    HalfAdder(a=a1[6], b=c21, sum=b1[6], carry=c22);
+    HalfAdder(a=a1[7], b=c22, sum=b1[7], carry=c23);
+    HalfAdder(a=a1[8], b=c23, sum=b1[8], carry=c24);
+    HalfAdder(a=a1[9], b=c24, sum=b1[9], carry=c25);
+    HalfAdder(a=a1[10], b=c25, sum=b1[10], carry=c26);
+    HalfAdder(a=a1[11], b=c26, sum=b1[11], carry=c27);
+
+    HalfAdder(a=a2[0], b=c31, sum=b2[0], carry=c32);
+    HalfAdder(a=a2[1], b=c32, sum=b2[1], carry=c33);
+    HalfAdder(a=a2[2], b=c33, sum=b2[2], carry=c34);
+    HalfAdder(a=a2[3], b=c34, sum=b2[3], carry=c35);
+    HalfAdder(a=a2[4], b=c35, sum=b2[4], carry=c36);
+    HalfAdder(a=a2[5], b=c36, sum=b2[5], carry=c37);
+    HalfAdder(a=a2[6], b=c37, sum=b2[6], carry=c38);
+    HalfAdder(a=a2[7], b=c38, sum=b2[7], carry=c39);
+    HalfAdder(a=a2[8], b=c39, sum=b2[8], carry=c40);
+    HalfAdder(a=a2[9], b=c40, sum=b2[9], carry=c41);
+    HalfAdder(a=a2[10], b=c41, sum=b2[10], carry=c42);
+    HalfAdder(a=a2[11], b=c42, sum=b2[11], carry=c43);
+}

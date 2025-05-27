@@ -1,0 +1,20 @@
+CHIP proyecto04E{
+    IN a[16],b[16];
+    OUT c[2];
+
+    PARTS:
+        Not(in=a[0], out=nCero);
+        Not16(in=a, out=nCeros);
+
+        And(a=a[0], b=nCero, out=cero);
+        Or(a=a[0], b=nCero, out=uno);
+
+        proyecto04B(a=b, b=complemento2);
+        proyecto04A(a=a, b=complemento2, s=suma, c=carry);
+
+        allZero(in=suma, zero=cero, out=todoCero);
+
+        Not(in=carry, out=notCarry);
+        Or(a=todoCero, b=carry, out=c[0]);
+        Or(a=todoCero, b=notCarry, out=c[1]);
+}

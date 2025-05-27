@@ -1,0 +1,121 @@
+// Carrera / Semestre: Ingeniería de Sistemas / 6to Semestre
+// Asignatura: Arquitectura Computacional y Sistemas Operativos (ACSO)
+// Nombre: Jesús Alfonso Pinzón Vega
+// Fecha: 2024/12/07
+
+// Circuito: "subtract.hdl"
+// Función: Realiza la resta de dos números de 32 bits utilizando complemento a 2.
+// Entradas: a1[16], a0[16], b1[16], b0[16] (dos números de 32 bits divididos en dos vectores de 16 bits cada uno)
+// Salidas: c1[16], c0[16] (resultado de la resta)
+
+CHIP subtract {
+
+    IN  a1[16], a0[16], b1[16], b0[16];
+    OUT c1[16], c0[16];
+
+    PARTS:
+    // Declarar buses internos para los complementos a 1 y a 2
+    Not(in=b0[0], out=notB00);
+    Not(in=b0[1], out=notB01);
+    Not(in=b0[2], out=notB02);
+    Not(in=b0[3], out=notB03);
+    Not(in=b0[4], out=notB04);
+    Not(in=b0[5], out=notB05);
+    Not(in=b0[6], out=notB06);
+    Not(in=b0[7], out=notB07);
+    Not(in=b0[8], out=notB08);
+    Not(in=b0[9], out=notB09);
+    Not(in=b0[10], out=notB010);
+    Not(in=b0[11], out=notB011);
+    Not(in=b0[12], out=notB012);
+    Not(in=b0[13], out=notB013);
+    Not(in=b0[14], out=notB014);
+    Not(in=b0[15], out=notB015);
+
+    Not(in=b1[0], out=notB10);
+    Not(in=b1[1], out=notB11);
+    Not(in=b1[2], out=notB12);
+    Not(in=b1[3], out=notB13);
+    Not(in=b1[4], out=notB14);
+    Not(in=b1[5], out=notB15);
+    Not(in=b1[6], out=notB16);
+    Not(in=b1[7], out=notB17);
+    Not(in=b1[8], out=notB18);
+    Not(in=b1[9], out=notB19);
+    Not(in=b1[10], out=notB110);
+    Not(in=b1[11], out=notB111);
+    Not(in=b1[12], out=notB112);
+    Not(in=b1[13], out=notB113);
+    Not(in=b1[14], out=notB114);
+    Not(in=b1[15], out=notB115);
+
+    // Sumar 1 al complemento a 1 de b0 y b1 para obtener el complemento a 2
+    FullAdder(a=notB00, b=false, c=true, sum=comp2B00, carry=carry0);
+    FullAdder(a=notB01, b=false, c=carry0, sum=comp2B01, carry=carry1);
+    FullAdder(a=notB02, b=false, c=carry1, sum=comp2B02, carry=carry2);
+    FullAdder(a=notB03, b=false, c=carry2, sum=comp2B03, carry=carry3);
+    FullAdder(a=notB04, b=false, c=carry3, sum=comp2B04, carry=carry4);
+    FullAdder(a=notB05, b=false, c=carry4, sum=comp2B05, carry=carry5);
+    FullAdder(a=notB06, b=false, c=carry5, sum=comp2B06, carry=carry6);
+    FullAdder(a=notB07, b=false, c=carry6, sum=comp2B07, carry=carry7);
+    FullAdder(a=notB08, b=false, c=carry7, sum=comp2B08, carry=carry8);
+    FullAdder(a=notB09, b=false, c=carry8, sum=comp2B09, carry=carry9);
+    FullAdder(a=notB010, b=false, c=carry9, sum=comp2B010, carry=carry10);
+    FullAdder(a=notB011, b=false, c=carry10, sum=comp2B011, carry=carry11);
+    FullAdder(a=notB012, b=false, c=carry11, sum=comp2B012, carry=carry12);
+    FullAdder(a=notB013, b=false, c=carry12, sum=comp2B013, carry=carry13);
+    FullAdder(a=notB014, b=false, c=carry13, sum=comp2B014, carry=carry14);
+    FullAdder(a=notB015, b=false, c=carry14, sum=comp2B015, carry=carry15);
+
+    FullAdder(a=notB10, b=false, c=carry15, sum=comp2B10, carry=carry16);
+    FullAdder(a=notB11, b=false, c=carry16, sum=comp2B11, carry=carry17);
+    FullAdder(a=notB12, b=false, c=carry17, sum=comp2B12, carry=carry18);
+    FullAdder(a=notB13, b=false, c=carry18, sum=comp2B13, carry=carry19);
+    FullAdder(a=notB14, b=false, c=carry19, sum=comp2B14, carry=carry20);
+    FullAdder(a=notB15, b=false, c=carry20, sum=comp2B15, carry=carry21);
+    FullAdder(a=notB16, b=false, c=carry21, sum=comp2B16, carry=carry22);
+    FullAdder(a=notB17, b=false, c=carry22, sum=comp2B17, carry=carry23);
+    FullAdder(a=notB18, b=false, c=carry23, sum=comp2B18, carry=carry24);
+    FullAdder(a=notB19, b=false, c=carry24, sum=comp2B19, carry=carry25);
+    FullAdder(a=notB110, b=false, c=carry25, sum=comp2B110, carry=carry26);
+    FullAdder(a=notB111, b=false, c=carry26, sum=comp2B111, carry=carry27);
+    FullAdder(a=notB112, b=false, c=carry27, sum=comp2B112, carry=carry28);
+    FullAdder(a=notB113, b=false, c=carry28, sum=comp2B113, carry=carry29);
+    FullAdder(a=notB114, b=false, c=carry29, sum=comp2B114, carry=carry30);
+    FullAdder(a=notB115, b=false, c=carry30, sum=comp2B115, carry=carry31);
+
+    // Sumar a0 y a1 con el complemento a 2 de b0 y b1
+    FullAdder(a=a0[0], b=comp2B00, c=false, sum=c0[0], carry=carry32);
+    FullAdder(a=a0[1], b=comp2B01, c=carry32, sum=c0[1], carry=carry33);
+    FullAdder(a=a0[2], b=comp2B02, c=carry33, sum=c0[2], carry=carry34);
+    FullAdder(a=a0[3], b=comp2B03, c=carry34, sum=c0[3], carry=carry35);
+    FullAdder(a=a0[4], b=comp2B04, c=carry35, sum=c0[4], carry=carry36);
+    FullAdder(a=a0[5], b=comp2B05, c=carry36, sum=c0[5], carry=carry37);
+    FullAdder(a=a0[6], b=comp2B06, c=carry37, sum=c0[6], carry=carry38);
+    FullAdder(a=a0[7], b=comp2B07, c=carry38, sum=c0[7], carry=carry39);
+    FullAdder(a=a0[8], b=comp2B08, c=carry39, sum=c0[8], carry=carry40);
+    FullAdder(a=a0[9], b=comp2B09, c=carry40, sum=c0[9], carry=carry41);
+    FullAdder(a=a0[10], b=comp2B010, c=carry41, sum=c0[10], carry=carry42);
+    FullAdder(a=a0[11], b=comp2B011, c=carry42, sum=c0[11], carry=carry43);
+    FullAdder(a=a0[12], b=comp2B012, c=carry43, sum=c0[12], carry=carry44);
+    FullAdder(a=a0[13], b=comp2B013, c=carry44, sum=c0[13], carry=carry45);
+    FullAdder(a=a0[14], b=comp2B014, c=carry45, sum=c0[14], carry=carry46);
+    FullAdder(a=a0[15], b=comp2B015, c=carry46, sum=c0[15], carry=carry47);
+
+    FullAdder(a=a1[0], b=comp2B10, c=carry47, sum=c1[0], carry=carry48);
+    FullAdder(a=a1[1], b=comp2B11, c=carry48, sum=c1[1], carry=carry49);
+    FullAdder(a=a1[2], b=comp2B12, c=carry49, sum=c1[2], carry=carry50);
+    FullAdder(a=a1[3], b=comp2B13, c=carry50, sum=c1[3], carry=carry51);
+    FullAdder(a=a1[4], b=comp2B14, c=carry51, sum=c1[4], carry=carry52);
+    FullAdder(a=a1[5], b=comp2B15, c=carry52, sum=c1[5], carry=carry53);
+    FullAdder(a=a1[6], b=comp2B16, c=carry53, sum=c1[6], carry=carry54);
+    FullAdder(a=a1[7], b=comp2B17, c=carry54, sum=c1[7], carry=carry55);
+    FullAdder(a=a1[8], b=comp2B18, c=carry55, sum=c1[8], carry=carry56);
+    FullAdder(a=a1[9], b=comp2B19, c=carry56, sum=c1[9], carry=carry57);
+    FullAdder(a=a1[10], b=comp2B110, c=carry57, sum=c1[10], carry=carry58);
+    FullAdder(a=a1[11], b=comp2B111, c=carry58, sum=c1[11], carry=carry59);
+    FullAdder(a=a1[12], b=comp2B112, c=carry59, sum=c1[12], carry=carry60);
+    FullAdder(a=a1[13], b=comp2B113, c=carry60, sum=c1[13], carry=carry61);
+    FullAdder(a=a1[14], b=comp2B114, c=carry61, sum=c1[14], carry=carry62);
+    FullAdder(a=a1[15], b=comp2B115, c=carry62, sum=c1[15], carry=carry63);
+}

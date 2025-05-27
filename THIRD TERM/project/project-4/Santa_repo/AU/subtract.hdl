@@ -1,0 +1,17 @@
+/**
+ * Proyecto 1 | Daniel Antonio Santanilla | subtract.hdl
+ * Implementar un circuito en HDL que realice la 
+ * resta de dos numeros de 48 bits usando complemento a 2. 
+ * input: a2[16], a1[16], a0[16], b2[16], b1[16], b0[16]
+ * output: c2[16], c1[16], c0[16]
+ */
+
+CHIP subtract
+{
+    IN a2[16], a1[16], a0[16], b2[16], b1[16], b0[16];
+    OUT c2[16], c1[16], c0[16];
+
+    PARTS:
+    complement2(a2=b2, a1=b1, a0=b0, b2=bs2, b1=bs1, b0=bs0);
+    add(a2=a2, a1=a1, a0=a0, b2=bs2, b1=bs1, b0=bs0, c2=c2, c1=c1, c0=c0);
+}

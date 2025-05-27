@@ -1,0 +1,111 @@
+/**
+ * Andersson David Sánchez Méndez
+ * Arithmetic Unit (AU)
+ * Implements the 8 specified instructions
+ * Works with 36-bit numbers divided into 3 vectors of 12 bits
+ */
+
+CHIP AU {
+    IN CIin0[12], CIin1[12], CIin2[12], 
+       Ain0[12], Ain1[12], Ain2[12], 
+       SLin0[12], SLin1[12], SLin2[12], 
+       inst[3];
+    OUT CIout0[12], CIout1[12], CIout2[12], 
+        Aout0[12], Aout1[12], Aout2[12], 
+        SLout0[12], SLout1[12], SLout2[12];
+
+    PARTS:
+    // Create constants at the beginning
+    Replicate12(in=false, out=false12);
+    
+    // Decode the instruction using DMux8Way
+    DMux8Way(in=true, sel=inst, a=op000, b=op001, c=op010, d=op011, 
+             e=op100, f=op101, g=op110, h=op111);
+
+    // Create replicated control signals for vector operations
+    Replicate12(in=op000, out=op000rep);
+    Replicate12(in=op001, out=op001rep);
+    Replicate12(in=op010, out=op010rep);
+    Replicate12(in=op011, out=op011rep);
+    Replicate12(in=op100, out=op100rep);
+    Replicate12(in=op101, out=op101rep);
+
+    // 000: CIout ← SLin (Copy SLin to CIout)
+    And12(a=SLin0, b=op000rep, out=ci0000);
+    And12(a=SLin1, b=op000rep, out=ci0001);
+    And12(a=SLin2, b=op000rep, out=ci0002);
+
+    // 001: CIout ← CIin + SLin (Add CIin and SLin)
+    Add36(a2=CIin2, a1=CIin1, a0=CIin0, 
+          b2=SLin2, b1=SLin1, b0=SLin0,
+          out2=sum0012, out1=sum0011, out0=sum0010);
+    And12(a=sum0010, b=op001rep, out=ci0010);
+    And12(a=sum0011, b=op001rep, out=ci0011);
+    And12(a=sum0012, b=op001rep, out=ci0012);
+
+    // 010: Aout ← -SLin (Negative of SLin in 2's complement)
+    Negate36(in2=SLin2, in1=SLin1, in0=SLin0, 
+             out2=neg2, out1=neg1, out0=neg0);
+    And12(a=neg0, b=op010rep, out=a0100);
+    And12(a=neg1, b=op010rep, out=a0101);
+    And12(a=neg2, b=op010rep, out=a0102);
+
+    // 011: SLout ← Ain (Copy Ain to SLout)
+    And12(a=Ain0, b=op011rep, out=sl0110);
+    And12(a=Ain1, b=op011rep, out=sl0111);
+    And12(a=Ain2, b=op011rep, out=sl0112);
+
+    // 100 and 101: Aout ← Ain - SLin (Subtract SLin from Ain)
+    Sub36(a2=Ain2, a1=Ain1, a0=Ain0, 
+          b2=SLin2, b1=SLin1, b0=SLin0,
+          out2=sub2, out1=sub1, out0=sub0);
+    And12(a=sub0, b=op100rep, out=a1000);
+    And12(a=sub1, b=op100rep, out=a1001);
+    And12(a=sub2, b=op100rep, out=a1002);
+    
+    And12(a=sub0, b=op101rep, out=a1010);
+    And12(a=sub1, b=op101rep, out=a1011);
+    And12(a=sub2, b=op101rep, out=a1012);
+
+    // 110: If Ain < 0 then CIout ← CIin + 1
+    // Check if Ain is negative (MSB of the 36-bit number)
+    And(a=Ain2[11], b=op110, out=ainNegative);
+    
+    // Increment CIin by 1
+    Inc36(in2=CIin2, in1=CIin1, in0=CIin0, 
+          out2=inc2, out1=inc1, out0=inc0);
+    
+    // Only use the result if Ain is negative
+    Replicate12(in=ainNegative, out=ainNegRep);
+    And12(a=inc0, b=ainNegRep, out=ci1100);
+    And12(a=inc1, b=ainNegRep, out=ci1101);
+    And12(a=inc2, b=ainNegRep, out=ci1102);
+
+    // 111: No operation (all outputs will be 0)
+
+    // Combine all outputs using OR
+    // CIout = result of 000 OR 001 OR 110
+    Or12(a=ci0000, b=ci0010, out=citmp10);
+    Or12(a=citmp10, b=ci1100, out=CIout0);
+    
+    Or12(a=ci0001, b=ci0011, out=citmp11);
+    Or12(a=citmp11, b=ci1101, out=CIout1);
+    
+    Or12(a=ci0002, b=ci0012, out=citmp12);
+    Or12(a=citmp12, b=ci1102, out=CIout2);
+
+    // Aout = result of 010 OR 100 OR 101
+    Or12(a=a0100, b=a1000, out=atmp10);
+    Or12(a=atmp10, b=a1010, out=Aout0);
+    
+    Or12(a=a0101, b=a1001, out=atmp11);
+    Or12(a=atmp11, b=a1011, out=Aout1);
+    
+    Or12(a=a0102, b=a1002, out=atmp12);
+    Or12(a=atmp12, b=a1012, out=Aout2);
+
+    // SLout = result of 011 only
+    Or12(a=sl0110, b=false12, out=SLout0);
+    Or12(a=sl0111, b=false12, out=SLout1);  
+    Or12(a=sl0112, b=false12, out=SLout2);
+}

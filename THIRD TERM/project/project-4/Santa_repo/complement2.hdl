@@ -1,0 +1,76 @@
+/**
+ * Proyecto 1 | Daniel Antonio Santanilla | complement2.hdl
+ * Implementar un circuito en HDL que realice el complemento a 2 
+ * de un numero de 48 bits.
+ * input: a2[16], a1[16], a0[16]
+ * output: b2[16], b1[16], b0[16]
+ */
+
+CHIP complement2
+{
+    IN a2[16], a1[16], a0[16];
+    OUT b2[16], b1[16], b0[16];
+
+    PARTS:
+    Not16 (in=a0,
+      out[0]=aN00, out[1]=aN01, out[2]=aN02, out[3]=aN03, out[4]=aN04, out[5]=aN05, out[6]=aN06, out[7]=aN07, out[8]=aN08,
+      out[9]=aN09, out[10]=aN010, out[11]=aN011, out[12]=aN012, out[13]=aN013, out[14]=aN014, out[15]=aN015);
+    Not16 (in=a1,
+      out[0]=aN10, out[1]=aN11, out[2]=aN12, out[3]=aN13, out[4]=aN14, out[5]=aN15, out[6]=aN16, out[7]=aN17, out[8]=aN18,
+      out[9]=aN19, out[10]=aN110, out[11]=aN111, out[12]=aN112, out[13]=aN113, out[14]=aN114, out[15]=aN115);
+    Not16 (in=a2,
+      out[0]=aN20, out[1]=aN21, out[2]=aN22, out[3]=aN23, out[4]=aN24, out[5]=aN25, out[6]=aN26, out[7]=aN27, out[8]=aN28,
+      out[9]=aN29, out[10]=aN210, out[11]=aN211, out[12]=aN212, out[13]=aN213, out[14]=aN214, out[15]=aN215);
+    
+    // Sumando 1
+    HalfAdder(a=aN00, b=true, sum=b0[0], carry=c0);
+    HalfAdder(a=aN01, b=c0, sum=b0[1], carry=c1);
+    HalfAdder(a=aN02, b=c1, sum=b0[2], carry=c2);
+    HalfAdder(a=aN03, b=c2, sum=b0[3], carry=c3);
+    HalfAdder(a=aN04, b=c3, sum=b0[4], carry=c4);
+    HalfAdder(a=aN05, b=c4, sum=b0[5], carry=c5);
+    HalfAdder(a=aN06, b=c5, sum=b0[6], carry=c6);
+    HalfAdder(a=aN07, b=c6, sum=b0[7], carry=c7);
+    HalfAdder(a=aN08, b=c7, sum=b0[8], carry=c8);
+    HalfAdder(a=aN09, b=c8, sum=b0[9], carry=c9);
+    HalfAdder(a=aN010, b=c9, sum=b0[10], carry=c10);
+    HalfAdder(a=aN011, b=c10, sum=b0[11], carry=c11);
+    HalfAdder(a=aN012, b=c11, sum=b0[12], carry=c12);
+    HalfAdder(a=aN013, b=c12, sum=b0[13], carry=c13);
+    HalfAdder(a=aN014, b=c13, sum=b0[14], carry=c14);
+    HalfAdder(a=aN015, b=c14, sum=b0[15], carry=c15);
+
+    HalfAdder(a=aN10, b=c15, sum=b1[0], carry=c16);
+    HalfAdder(a=aN11, b=c16, sum=b1[1], carry=c17);
+    HalfAdder(a=aN12, b=c17, sum=b1[2], carry=c18);
+    HalfAdder(a=aN13, b=c17, sum=b1[3], carry=c19);
+    HalfAdder(a=aN14, b=c18, sum=b1[4], carry=c20);
+    HalfAdder(a=aN15, b=c20, sum=b1[5], carry=c21);
+    HalfAdder(a=aN16, b=c21, sum=b1[6], carry=c22);
+    HalfAdder(a=aN17, b=c22, sum=b1[7], carry=c23);
+    HalfAdder(a=aN18, b=c23, sum=b1[8], carry=c24);
+    HalfAdder(a=aN19, b=c24, sum=b1[9], carry=c25);
+    HalfAdder(a=aN110, b=c25, sum=b1[10], carry=c26);
+    HalfAdder(a=aN111, b=c26, sum=b1[11], carry=c27);
+    HalfAdder(a=aN112, b=c27, sum=b1[12], carry=c28);
+    HalfAdder(a=aN113, b=c28, sum=b1[13], carry=c29);
+    HalfAdder(a=aN114, b=c29, sum=b1[14], carry=c30);
+    HalfAdder(a=aN115, b=c30, sum=b1[15], carry=c31);
+
+    HalfAdder(a=aN20, b=c31, sum=b2[0], carry=c32);
+    HalfAdder(a=aN21, b=c32, sum=b2[1], carry=c33);
+    HalfAdder(a=aN22, b=c33, sum=b2[2], carry=c34);
+    HalfAdder(a=aN23, b=c34, sum=b2[3], carry=c35);
+    HalfAdder(a=aN24, b=c35, sum=b2[4], carry=c36);
+    HalfAdder(a=aN25, b=c36, sum=b2[5], carry=c37);
+    HalfAdder(a=aN26, b=c37, sum=b2[6], carry=c38);
+    HalfAdder(a=aN27, b=c38, sum=b2[7], carry=c39);
+    HalfAdder(a=aN28, b=c39, sum=b2[8], carry=c40);
+    HalfAdder(a=aN29, b=c40, sum=b2[9], carry=c41);
+    HalfAdder(a=aN210, b=c41, sum=b2[10], carry=c42);
+    HalfAdder(a=aN211, b=c42, sum=b2[11], carry=c43);
+    HalfAdder(a=aN212, b=c43, sum=b2[12], carry=c44);
+    HalfAdder(a=aN213, b=c44, sum=b2[13], carry=c45);
+    HalfAdder(a=aN214, b=c45, sum=b2[14], carry=c46);
+    HalfAdder(a=aN215, b=c46, sum=b2[15], carry=c47);
+}

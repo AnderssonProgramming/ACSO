@@ -1,0 +1,684 @@
+/* Author: Andersson David Sánchez Méndez*/
+/* Only works with the integer part of the number */
+
+/* Number of repetitions */
+start,	Input
+		Store n
+
+/* For each loop */
+loop, 	Load n
+		SkipCond 800
+		Jump end
+		Subt ONE
+		Store n
+
+/* Make triangle */
+triangle,	Input
+			Store x1 // X coordinate for point A
+			Input
+			Store y1 // Y coordinate for point A
+			Input
+			Store x2 // X coordinate for point B
+			Input
+			Store y2 // X coordinate for point B
+			Input
+			Store x3 // X coordinate for point C
+			Input
+			Store y3 // X coordinate for point C
+
+			JnS is_triangle
+
+			Load it_det
+			SkipCond 400
+			Jump setA // Is a triangle
+			Load ERROR_MESSAGE // Is not a triangle
+			Output
+			Jump loop
+
+/* Set distances for each point in the cartisian plane */
+setA,	Load x1
+		Store d_x1
+		Load x2
+		Store d_x2
+		Load y1
+		Store d_y1
+		Load y2
+		Store d_y2
+
+		JnS distance
+		Load d_distance
+		Store a
+
+setB,	Load x2
+		Store d_x1
+		Load x3
+		Store d_x2
+		Load y2
+		Store d_y1
+		Load y3
+		Store d_y2
+
+		JnS distance
+		Load d_distance
+		Store b
+
+setC,	Load x3
+		Store d_x1
+		Load x1
+		Store d_x2
+		Load y3
+		Store d_y1
+		Load y1
+		Store d_y2
+
+		JnS distance
+		Load d_distance
+		Store c
+
+display_properties,	JnS area
+
+					JnS perimeter
+
+					JnS side
+
+					JnS angle
+
+					Load LINE_SKIP
+					Output
+					Jump loop
+
+
+
+
+/* Is triangle function */
+is_triangle,	HEX 0
+				Clear
+				Store it_by_cy
+				Store it_det_ax_by_cy
+				Store it_bx_cx
+				Store it_det_ay_bx_cx
+				Store it_det_bx_cy
+				Store it_det_by_cx
+				Store it_det
+
+by_cy, 	Load it_by_cy
+		Add y2
+		Subt y3
+		Store it_by_cy
+
+det_ax_by_cy,	Load x1
+				Store m_a
+				Load it_by_cy
+				Store m_b
+
+				JnS multiplication
+				Load m_result
+				Store it_det_ax_by_cy
+
+bx_cx,	Load it_bx_cx
+		Add x2
+		Subt x3
+		Store it_bx_cx
+
+det_ay_bx_cx,	Load y1
+				Store m_a
+				Load it_bx_cx
+				Store m_b
+
+				JnS multiplication
+				Load m_result
+				Store it_det_ay_bx_cx
+
+det_bx_cy,	Load x2
+			Store m_a
+			Load y3
+			Store m_b
+
+			JnS multiplication
+			Load m_result
+			Store it_det_bx_cy
+
+det_by_cx,	Load y2
+			Store m_a
+			Load x3
+			Store m_b
+
+			JnS multiplication
+			Load m_result
+			Store it_det_by_cx
+
+det,	Load it_det
+		Add it_det_ax_by_cy
+		Subt it_det_ay_bx_cx
+		Add it_det_bx_cy
+		Subt it_det_by_cx
+		Store it_det
+		JumpI is_triangle
+
+
+
+
+/* Area function */
+area,	HEX 0
+		Clear
+		Store a_a_b_c
+		Store a_s
+		Store a_s_a
+		Store a_mul_s_a
+		Store a_s_b
+		Store a_s_c
+		Store a_mul_s_b_c
+		Store a_area_squared
+		Store a_area
+
+a_b_c,	Load a_a_b_c
+		Add a
+		Add b
+		Add c
+		Store a_a_b_c
+
+s,	Load a_a_b_c
+	Store d_a
+	Load TWO
+	Store d_b
+
+	JnS division
+	Load d_count
+	Store a_s
+
+s_a,	Load a_s_a
+		Add a_s
+		Subt a
+		Store a_s_a
+
+mul_s_a,	Load a_s
+			Store m_a
+			Load a_s_a
+			Store m_b
+
+			JnS multiplication
+			Load m_result
+			Store a_mul_s_a
+
+s_b,	Load a_s_b
+		Add a_s
+		Subt b
+		Store a_s_b
+
+s_c,	Load a_s_c
+		Add a_s
+		Subt c
+		Store a_s_c
+
+mul_s_b_c,	Load a_s_b
+			Store m_a
+			Load a_s_c
+			Store m_b
+
+			JnS multiplication
+			Load m_result
+			Store a_mul_s_b_c
+
+ar_squared,	Load a_mul_s_a
+			Store m_a
+			Load a_mul_s_b_c
+			Store m_b
+			
+			JnS multiplication
+			Load m_result
+			Store a_area_squared
+
+ar_ops,	Load a_area_squared
+		Store sqrt_n
+
+		JnS sqrt
+		Load sqrt_count
+		Store a_area
+		Output
+		JumpI area
+
+
+
+
+
+/* Perimeter function */
+perimeter,	HEX 0
+			Clear
+			Store p_perimeter
+
+perim_ops,	Load p_perimeter
+			Add a
+			Add b
+			Add c
+			Store p_perimeter
+			Output
+			JumpI perimeter
+
+
+
+
+
+/* Get type by side function */
+side,	HEX 0
+		Clear
+		Store gtbs_result
+
+sid_condition,	Load a
+				Subt b
+				SkipCond 400
+				Jump a_different_b
+				Jump a_equal_b
+
+a_equal_b,	Load b
+			Subt c
+			SkipCond 400
+			Jump isoceles_triangle
+			Jump equilateral_triangle
+
+a_different_b,	Load a
+				Subt c
+				SkipCond 400
+				Jump a_different_c
+				Jump isoceles_triangle
+
+a_different_c,	Load b
+				Subt c
+				SkipCond 400
+				Jump scalene_triangle
+				Jump isoceles_triangle
+
+equilateral_triangle,	Load ONE
+						Store gtbs_result
+						Output
+						JumpI side
+
+isoceles_triangle,	Load TWO
+					Store gtbs_result
+					Output
+					JumpI side
+
+scalene_triangle,	Load THREE
+					Store gtbs_result
+					Output
+					JumpI side
+
+
+
+
+
+/* Get type by angle function */
+angle, 	HEX 0
+		Clear
+		Store gtba_temp
+		Store gtba_a_squared
+		Store gtba_b_squared
+		Store gtba_c_squared
+		Store gtba_result
+
+sort,	Load a
+		Store gtba_temp_a
+		Load b
+		Store gtba_temp_b
+		Load c
+		Store gtba_temp_c
+
+sort_a_b,	Load gtba_temp_a
+			Subt gtba_temp_b
+			SkipCond 000
+			Jump firstSwap
+			Jump sort_b_c
+
+firstSwap,	Load gtba_temp_a
+			Store gtba_temp
+			Load gtba_temp_b
+			Store gtba_temp_a
+			Load gtba_temp
+			Store gtba_temp_b
+
+sort_b_c,	Load gtba_temp_b
+			Subt gtba_temp_c
+			SkipCond 000
+			Jump secondSwap
+			Jump sort_a_c_final
+
+secondSwap,	Load gtba_temp_b
+			Store gtba_temp
+			Load gtba_temp_c
+			Store gtba_temp_b
+			Load gtba_temp
+			Store gtba_temp_c
+
+sort_a_c_final,	Load gtba_temp_a
+				Subt gtba_temp_b
+				SkipCond 000
+				Jump lastSwap
+				Jump a_square
+
+lastSwap,	Load gtba_temp_a
+			Store gtba_temp
+			Load gtba_temp_b
+			Store gtba_temp_a
+			Load gtba_temp
+			Store gtba_temp_b
+
+a_square,	Load gtba_temp_a
+			Store m_a
+			Load gtba_temp_a
+			Store m_b
+
+			JnS multiplication
+			Load m_result
+			Store gtba_a_squared
+
+b_square,	Load gtba_temp_b
+			Store m_a
+			Load gtba_temp_b
+			Store m_b
+
+			JnS multiplication
+			Load m_result
+			Store gtba_b_squared
+
+c_square,	Load gtba_temp_c
+			Store m_a
+			Load gtba_temp_c
+			Store m_b
+
+			JnS multiplication
+			Load m_result
+			Store gtba_c_squared
+
+ang_ops,	Load gtba_result
+			Add gtba_a_squared
+			Add gtba_b_squared
+			Subt gtba_c_squared
+			Store gtba_result
+			SkipCond 400
+			Jump secondary_verification
+			Jump rectangle_triangle
+
+secondary_verification,	Load gtba_result
+						SkipCond 800
+						Jump obtuse_triangle
+						Jump acute_triangle
+
+rectangle_triangle,	Load ONE
+					Output
+					JumpI angle
+
+acute_triangle,	Load TWO
+				Output
+				JumpI angle
+
+obtuse_triangle,	Load THREE
+					Output
+					JumpI angle
+
+
+
+
+
+/* TRIANGLE CLASS METHODS*/
+
+/* Distance function between two points */
+distance,	HEX 0
+			Clear
+			Store d_dx
+			Store d_dy
+			Store d_dx_squared
+			Store d_dy_squared
+			Store d_d2
+			Store d_distance
+
+dist_x,	Load d_x2
+		Subt d_x1
+		Store d_dx // x Distance
+			
+dist_y,	Load d_y2
+		Subt d_y1
+		Store d_dy // y Distance
+
+x_squared, 	Load d_dx
+			Store m_a
+			Store m_b
+
+			JnS multiplication
+			Load m_result
+			Store d_dx_squared
+
+y_squared,	Load d_dy
+			Store m_a
+			Store m_b
+
+			JnS multiplication
+			Load m_result
+			Store d_dy_squared
+
+d2,	Load d_d2
+	Add d_dx_squared
+	Add d_dy_squared
+	Store d_d2 // d2 value
+
+d_ops,	Load d_d2
+		Store sqrt_n
+
+		JnS sqrt
+		Load sqrt_count
+		Store d_distance
+		JumpI distance
+
+
+
+
+/* GLOBAL FUNCTIONS */
+
+/* Multiplication function between two numbers*/
+multiplication,	HEX 0
+				Clear
+				Store m_result
+				Store m_negative_a
+				Store m_negative_b
+
+is_a_negative,	Load m_a
+				SkipCond 000
+				Jump is_b_negative
+				Jump negative_a
+
+negative_a,	Load m_a
+			Subt m_a
+			Subt m_a
+			Store m_a
+			Load m_negative_a
+			Add ONE
+			Store m_negative_a
+
+is_b_negative,	Load m_b
+				SkipCond 000
+				Jump mult_loop
+				Jump negative_b
+
+negative_b,	Load m_b
+			Subt m_b
+			Subt m_b
+			Store m_b
+			Load m_negative_b
+			Add ONE
+			Store m_negative_b
+
+mult_loop,	Load m_b
+			SkipCond 800
+			Jump mult_loop_end
+			Subt ONE
+			Store m_b
+			Load m_result
+			Add m_a
+			Store m_result
+			Jump mult_loop
+
+mult_loop_end,	Load m_negative_a
+				Subt m_negative_b
+				SkipCond 400
+				Jump negative_result
+				Jump mult_end
+
+negative_result,	Load m_result
+					Subt m_result
+					Subt m_result
+					Store m_result
+
+mult_end, JumpI multiplication
+
+/* Square root function */	
+sqrt,	HEX 0
+		Clear
+		Store sqrt_count
+		Load ONE
+		Store sqrt_odd
+
+sqrt_loop,	Load sqrt_n
+			Subt sqrt_odd
+			SkipCond 000
+			Jump sqrt_ops
+			JumpI sqrt
+
+sqrt_ops, 	Store sqrt_n
+			Load sqrt_odd
+			Add TWO
+			Store sqrt_odd
+			Load sqrt_count
+			Add ONE
+			Store sqrt_count
+			Jump sqrt_loop
+
+/* Division function */
+division,	HEX 0
+			Clear
+			Store d_count
+
+division_loop,	Load d_a
+				Subt d_b
+				SkipCond 000
+				Jump division_ops
+				JumpI division
+			
+division_ops,	Store d_a
+				Load d_count
+				Add ONE
+				Store d_count
+				Jump division_loop
+
+/* End */
+end, Halt
+
+
+
+
+
+/* VARIABLES */
+n, DEC 0
+x1, DEC 0
+y1, DEC 0
+x2, DEC 0
+y2, DEC 0
+x3, DEC 0
+y3, DEC 0
+a, DEC 0
+b, DEC 0
+c, DEC 0
+
+
+
+
+
+/* TRIANGLE CLASS METHODS VARIABLES AND PARAMETERS */
+
+/* Distance function parameters */
+d_x1, DEC 0 // Memory address for x1
+d_x2, DEC 0 // Memory address for x2
+d_y1, DEC 0 // Memory address for y1
+d_y2, DEC 0 // Memory address for y2
+
+/* Distance function variables */
+d_dx, DEC 0
+d_dy, DEC 0
+d_dx_squared, DEC 0
+d_dy_squared, DEC 0
+d_d2, DEC 0
+d_distance, DEC 0
+
+/* Is triangle function variables*/
+it_by_cy, DEC 0
+it_det_ax_by_cy, DEC 0
+it_bx_cx, DEC 0
+it_det_ay_bx_cx, DEC 0
+it_det_bx_cy, DEC 0
+it_det_by_cx, DEC 0
+it_det, DEC 0
+
+/* Area function variables*/
+a_a_b_c, DEC 0
+a_s, DEC 0
+a_s_a, DEC 0
+a_mul_s_a, DEC 0
+a_s_b, DEC 0
+a_s_c, DEC 0
+a_mul_s_b_c, DEC 0
+a_area_squared, DEC 0
+a_area, DEC 0 
+
+/* Perimeter function variable */
+p_perimeter, DEC 0
+
+/* Get type by side function variable */
+gtbs_result, DEC 0
+
+/* Get type by angle function variables */
+gtba_temp, DEC 0
+gtba_temp_a, DEC 0
+gtba_temp_b, DEC 0
+gtba_temp_c, DEC 0
+gtba_a_squared, DEC 0
+gtba_b_squared, DEC 0
+gtba_c_squared, DEC 0
+gtba_result, DEC 0
+
+
+
+
+
+/* GLOBAL FUNCTIONS VARIABLES AND PARAMETERS */
+
+/* Multiplication function parameters */
+m_a, DEC 0 // Memory address for number a
+m_b, DEC 0 // Memory address for number b
+
+/* Multiplication function variable */
+m_result, DEC 0
+m_negative_a, DEC 0
+m_negative_b, DEC 0
+
+/* Square root function parameter */
+sqrt_n, DEC 0 // Memory address for n
+
+/* Square root function variables */
+sqrt_count, DEC 0
+sqrt_odd, DEC 1
+
+/* Division function parameters */
+d_a, DEC 0
+d_b, DEC 0
+
+/* Division function variable */
+d_count, DEC 0
+
+
+
+
+
+/* CONSTANTS */
+ERROR_MESSAGE, DEC -200
+LINE_SKIP, DEC -100
+ZERO, DEC 0
+ONE, DEC 1
+TWO, DEC 2
+THREE, DEC 3

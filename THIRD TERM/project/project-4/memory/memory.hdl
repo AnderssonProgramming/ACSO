@@ -1,0 +1,62 @@
+/**
+ * Proyecto 4 | Andersson David Sánchez Méndez | memory.hdl
+ * Implementar un circuito en HDL para una memoria 
+ * de 32 posiciones y 36 bits en cada posicion. 
+ * input: a[5], w, in2[12], in1[12], in0[12]
+ * output: out2[12], out1[12], out0[12]
+ */
+
+CHIP memory
+{
+    IN a[5], w, in2[12], in1[12], in0[12];
+    OUT out2[12], out1[12], out0[12];
+
+    PARTS:
+    // Eleccion de memoria si hay escritura (w)
+    DMux32Way(in=w, sel=a,
+        a=dA, b=dB, c=dC,  d=dD,  e=dE,  f=dF,  g=dG,  h=dH,
+        i=dI, j=dJ, k=dK,  l=dL,  m=dM,  n=dN,  o=dO,  p=dP,
+        q=dQ, r=dR, s=dS,  t=dT,  u=dU,  v=dV,  w=dW,  x=dX,
+        y=dY, z=dZ, aa=dAA, ab=dAB, ac=dAC, ad=dAD, ae=dAE, af=dAF);
+    
+    // Escritura en memoria
+    Bit36(a=in2, b=in1, c=in0, load=dA, d=memoA2, e=memoA1, f=memoA0);
+    Bit36(a=in2, b=in1, c=in0, load=dB, d=memoB2, e=memoB1, f=memoB0);
+    Bit36(a=in2, b=in1, c=in0, load=dC, d=memoC2, e=memoC1, f=memoC0);
+    Bit36(a=in2, b=in1, c=in0, load=dD, d=memoD2, e=memoD1, f=memoD0);
+    Bit36(a=in2, b=in1, c=in0, load=dE, d=memoE2, e=memoE1, f=memoE0);
+    Bit36(a=in2, b=in1, c=in0, load=dF, d=memoF2, e=memoF1, f=memoF0);
+    Bit36(a=in2, b=in1, c=in0, load=dG, d=memoG2, e=memoG1, f=memoG0);
+    Bit36(a=in2, b=in1, c=in0, load=dH, d=memoH2, e=memoH1, f=memoH0);
+    Bit36(a=in2, b=in1, c=in0, load=dI, d=memoI2, e=memoI1, f=memoI0);
+    Bit36(a=in2, b=in1, c=in0, load=dJ, d=memoJ2, e=memoJ1, f=memoJ0);
+    Bit36(a=in2, b=in1, c=in0, load=dK, d=memoK2, e=memoK1, f=memoK0);
+    Bit36(a=in2, b=in1, c=in0, load=dL, d=memoL2, e=memoL1, f=memoL0);
+    Bit36(a=in2, b=in1, c=in0, load=dM, d=memoM2, e=memoM1, f=memoM0);
+    Bit36(a=in2, b=in1, c=in0, load=dN, d=memoN2, e=memoN1, f=memoN0);
+    Bit36(a=in2, b=in1, c=in0, load=dO, d=memoO2, e=memoO1, f=memoO0);
+    Bit36(a=in2, b=in1, c=in0, load=dP, d=memoP2, e=memoP1, f=memoP0);
+    Bit36(a=in2, b=in1, c=in0, load=dQ, d=memoQ2, e=memoQ1, f=memoQ0);
+    Bit36(a=in2, b=in1, c=in0, load=dR, d=memoR2, e=memoR1, f=memoR0);
+    Bit36(a=in2, b=in1, c=in0, load=dS, d=memoS2, e=memoS1, f=memoS0);
+    Bit36(a=in2, b=in1, c=in0, load=dT, d=memoT2, e=memoT1, f=memoT0);
+    Bit36(a=in2, b=in1, c=in0, load=dU, d=memoU2, e=memoU1, f=memoU0);
+    Bit36(a=in2, b=in1, c=in0, load=dV, d=memoV2, e=memoV1, f=memoV0);
+    Bit36(a=in2, b=in1, c=in0, load=dW, d=memoW2, e=memoW1, f=memoW0);
+    Bit36(a=in2, b=in1, c=in0, load=dX, d=memoX2, e=memoX1, f=memoX0);
+    Bit36(a=in2, b=in1, c=in0, load=dY, d=memoY2, e=memoY1, f=memoY0);
+    Bit36(a=in2, b=in1, c=in0, load=dZ, d=memoZ2, e=memoZ1, f=memoZ0);
+    Bit36(a=in2, b=in1, c=in0, load=dAA, d=memoAA2, e=memoAA1, f=memoAA0);
+    Bit36(a=in2, b=in1, c=in0, load=dAB, d=memoAB2, e=memoAB1, f=memoAB0);
+    Bit36(a=in2, b=in1, c=in0, load=dAC, d=memoAC2, e=memoAC1, f=memoAC0);
+    Bit36(a=in2, b=in1, c=in0, load=dAD, d=memoAD2, e=memoAD1, f=memoAD0);
+    Bit36(a=in2, b=in1, c=in0, load=dAE, d=memoAE2, e=memoAE1, f=memoAE0);
+    Bit36(a=in2, b=in1, c=in0, load=dAF, d=memoAF2, e=memoAF1, f=memoAF0);
+
+    // Salida de memoria
+    Mux32Way36(
+        a2=memoA2, b2=memoB2, c2=memoC2, d2=memoD2, e2=memoE2, f2=memoF2, g2=memoG2, h2=memoH2, i2=memoI2, j2=memoJ2, k2=memoK2, l2=memoL2, m2=memoM2, n2=memoN2, o2=memoO2, p2=memoP2, q2=memoQ2, r2=memoR2, s2=memoS2, t2=memoT2, u2=memoU2, v2=memoV2, w2=memoW2, x2=memoX2, y2=memoY2, z2=memoZ2, aa2=memoAA2, ab2=memoAB2, ac2=memoAC2, ad2=memoAD2, ae2=memoAE2, af2=memoAF2, 
+        a1=memoA1, b1=memoB1, c1=memoC1, d1=memoD1, e1=memoE1, f1=memoF1, g1=memoG1, h1=memoH1, i1=memoI1, j1=memoJ1, k1=memoK1, l1=memoL1, m1=memoM1, n1=memoN1, o1=memoO1, p1=memoP1, q1=memoQ1, r1=memoR1, s1=memoS1, t1=memoT1, u1=memoU1, v1=memoV1, w1=memoW1, x1=memoX1, y1=memoY1, z1=memoZ1, aa1=memoAA1, ab1=memoAB1, ac1=memoAC1, ad1=memoAD1, ae1=memoAE1, af1=memoAF1, 
+        a0=memoA0, b0=memoB0, c0=memoC0, d0=memoD0, e0=memoE0, f0=memoF0, g0=memoG0, h0=memoH0, i0=memoI0, j0=memoJ0, k0=memoK0, l0=memoL0, m0=memoM0, n0=memoN0, o0=memoO0, p0=memoP0, q0=memoQ0, r0=memoR0, s0=memoS0, t0=memoT0, u0=memoU0, v0=memoV0, w0=memoW0, x0=memoX0, y0=memoY0, z0=memoZ0, aa0=memoAA0, ab0=memoAB0, ac0=memoAC0, ad0=memoAD0, ae0=memoAE0, af0=memoAF0, 
+        sel=a, out2=out2, out1=out1, out0=out0);
+}

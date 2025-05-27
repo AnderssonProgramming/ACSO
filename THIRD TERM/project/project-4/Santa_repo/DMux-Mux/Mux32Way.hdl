@@ -1,0 +1,50 @@
+// File name: tools/builtIn/Mux32Way.hdl
+
+/** 
+ * Multiplexor. If sel == 00000 then out = a
+                If sel == 00001 then out = b
+                If sel == 00010 then out = c
+                If sel == 00011 then out = d
+                If sel == 00100 then out = e
+                If sel == 00101 then out = f
+                If sel == 00110 then out = g
+                If sel == 00111 then out = h
+                If sel == 01000 then out = i
+                If sel == 01001 then out = j
+                If sel == 01010 then out = k
+                If sel == 01011 then out = l
+                If sel == 01100 then out = m
+                If sel == 01101 then out = n
+                If sel == 01110 then out = o
+                If sel == 01111 then out = p
+                If sel == 10000 then out = q
+                If sel == 10001 then out = r
+                If sel == 10010 then out = s
+                If sel == 10011 then out = t
+                If sel == 10100 then out = u
+                If sel == 10101 then out = v
+                If sel == 10110 then out = w
+                If sel == 10111 then out = x
+                If sel == 11000 then out = y
+                If sel == 11001 then out = z
+                If sel == 11010 then out = aa
+                If sel == 11011 then out = ab
+                If sel == 11100 then out = ac
+                If sel == 11101 then out = ad
+                If sel == 11110 then out = ae
+                If sel == 11111 then out = af.
+
+ */
+
+CHIP Mux32Way {
+
+    IN  a, b, c, d, e, f, g, h, i, j,  k,  l,  m,  n,  o,  p,
+        q, r, s, t, u, v, w, x, y, z, aa, ab, ac, ad, ae, af, sel[5];
+    OUT out;
+
+    BUILTIN Mux32Way;
+}
+
+
+
+

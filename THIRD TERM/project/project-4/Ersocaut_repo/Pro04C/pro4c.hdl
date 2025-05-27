@@ -1,0 +1,7 @@
+CHIP pro4c{
+    IN a[16],b[16];
+    OUT c[16];
+
+    PARTS:
+        And16(a=a, b=b, out=c);
+}

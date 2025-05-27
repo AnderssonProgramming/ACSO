@@ -1,0 +1,7 @@
+CHIP pro4d{
+    IN a[16],b[16];
+    OUT c[16];
+
+    PARTS:
+        Or16(a=a, b=b, out=c);
+}

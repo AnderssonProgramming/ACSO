@@ -1,0 +1,619 @@
+/** Proyecto 03 | Andersson David Sánchez Méndez
+*   Escriba un programa en lenguaje ensamblador de MARIE que, 
+*   utilizando reales, lea las coordenadas de 3 puntos
+*   en el plano cartesiano que corresponden a los vértices de un triángulo, 
+*   calcule el perímetro, el área, y clasifique al triángulo de acuerdo a los lados y ángulos.
+*/
+Input
+Store   numCasos
+Load    zero
+Store   contador
+mainLoop, Load    contador
+Subt    numCasos
+Skipcond 000
+Jump    endProg
+Input
+Store   a_xCor
+Store	Arep_axCr
+Input
+Store   a_yCor
+Store	Arep_ayCr
+Input
+Store   b_xCor
+Store	Arep_bxCr
+Input
+Store   b_yCor
+Store	Arep_byCr
+Input
+Store   c_xCor
+Store	Arep_cxCr
+Input
+Store   c_yCor
+Store	Arep_cyCr  
+
+/ Verificar si es un triángulo
+Load	a_xCor
+Store	IsTriangle_axCr
+Load	a_yCor
+Store	IsTriangle_ayCr
+Load	b_xCor
+Store	IsTriangle_bxCr
+Load	b_yCor
+Store	IsTriangle_byCr
+Load	c_xCor
+Store	IsTriangle_cxCr
+Load	c_yCor
+Store	IsTriangle_cyCr
+JNS		IsTriangle
+Store	is_valid_triangle
+Load	is_valid_triangle
+Output
+Skipcond 800       / Si es igual a 0, salta a endProg
+Jump	endProg     / Si no es triángulo (0), termina el programa
+/ Si es triángulo (1), continuamos con el programa normal
+
+JNS		Areap
+Store	areavalue
+load	pis_trig
+Skipcond 800
+Jump	mainLoop
+load	areavalue
+Output
+Load	a_xCor
+Store	Per_axCr
+Load	a_yCor
+Store	Per_ayCr
+Load	b_xCor
+Store	Per_bxCr
+Load	b_yCor
+Store	Per_byCr
+Load	c_xCor
+Store	Per_cxCr
+Load	c_yCor
+Store	Per_cyCr
+JNS		Per
+Output
+load	Per_ab
+Store	LType_ab
+load	Per_bc
+Store	LType_bc
+load	Per_ca
+Store	LType_ca
+JnS		LType
+Output
+JnS		AType
+Output
+load    contador
+Add     one
+Store   contador
+jump    mainLoop 
+endProg,    Halt
+a_xCor, dec 0
+a_yCor, dec 0
+b_xCor, dec 0
+b_yCor, dec 0
+c_xCor, dec 0
+c_yCor, dec 0
+contador,   dec 0
+numCasos,   dec 0
+areavalue, dec 0
+is_valid_triangle, dec 0
+
+/ Función para verificar si es un triángulo válido
+IsTriangle, Dec 15
+/ Primero calcular el área para ver si los puntos son colineales
+Load	IsTriangle_byCr
+Subt	IsTriangle_cyCr
+Store	multp_num1
+Load	IsTriangle_axCr
+Store	multp_num2
+JNS		multp
+Store	IsTriangle_temp1
+
+Load	IsTriangle_cyCr
+Subt	IsTriangle_ayCr
+Store 	multp_num1
+Load	IsTriangle_bxCr
+Store	multp_num2
+JnS		multp
+Store	IsTriangle_temp2
+
+Load	IsTriangle_ayCr
+Subt	IsTriangle_byCr
+Store	multp_num1
+Load	IsTriangle_cxCr
+Store	multp_num2
+JnS		multp
+Add		IsTriangle_temp1
+Add		IsTriangle_temp2
+Store	abs_n
+JnS		abs
+
+/ Si el área es cero, los puntos son colineales (no forman triángulo)
+Skipcond 400
+Jump	IsTriangle_valid
+/ No es triángulo válido
+Load	zero
+JumpI	IsTriangle
+
+/ Es un triángulo válido
+IsTriangle_valid, Load one
+JumpI	IsTriangle
+
+IsTriangle_temp1, Dec 0
+IsTriangle_temp2, Dec 0
+IsTriangle_axCr, Dec 0
+IsTriangle_ayCr, Dec 0
+IsTriangle_bxCr, Dec 0
+IsTriangle_byCr, Dec 0
+IsTriangle_cxCr, Dec 0
+IsTriangle_cyCr, Dec 0
+
+mul100,	DEC 4
+load	mul100_a
+Store	multp_num1
+load	onehundred
+Store	multp_num2
+JNS	multp
+JumpI	mul100
+mul100_a, DEC 0
+
+div100,	Dec 22
+load	div100_a
+Store	div_a
+load	onehundred
+store	div_b
+JNS		div
+JumpI	div100
+div100_a, dec 0
+
+Areap,	dec 21
+load	Arep_byCr
+subt	Arep_cyCr
+store	multp_num1
+load	Arep_axCr
+store	multp_num2
+JNS		multp
+store	ptemp1
+load	Arep_cyCr
+subt	Arep_ayCr
+store 	multp_num1
+load	Arep_bxCr
+store	multp_num2
+JnS		multp
+store	ptemp2
+load	Arep_ayCr
+Subt	Arep_byCr
+store	multp_num1
+load	Arep_cxCr
+store	multp_num2
+JnS		multp
+add		ptemp1
+add		ptemp2
+store	abs_n
+JnS		abs
+store	pis_trig
+store	div_a
+load	two
+store	div_b
+JnS		div
+JumpI	Areap
+ptemp1,	DEC 0
+ptemp2,	Dec	0
+Arep_axCr, dec 0
+Arep_ayCr, dec 0
+Arep_bxCr, dec 0
+Arep_byCr, dec 0
+Arep_cxCr, dec 0
+Arep_cyCr, dec 0
+pis_trig, dec 0
+twohundred, dec 200
+
+Area,	dec 21
+load	Area_b_yCor
+subt	Area_c_yCor
+store	multp_num1
+load	Area_a_xCor
+store	multp_num2
+JNS		multp
+store	div100_a
+JnS		div100
+store	temp1
+load	Area_c_yCor
+subt	Area_a_yCor
+store 	multp_num1
+load	Area_b_xCor
+store	multp_num2
+JnS		multp
+store	div100_a
+JnS		div100
+store	temp2
+load	Area_a_yCor
+Subt	Area_b_yCor
+store	multp_num1
+load	Area_c_xCor
+store	multp_num2
+JnS		multp
+store	div100_a
+JnS		div100
+add		temp1
+add		temp2
+store	abs_n
+JnS		abs
+store	is_trig
+store	div_a
+load	two
+store	div_b
+JnS		div
+JumpI	Area
+temp1,	DEC 0
+temp2,	Dec	0
+Area_a_xCor, dec 0
+Area_a_yCor, dec 0
+Area_b_xCor, dec 0
+Area_b_yCor, dec 0
+Area_c_xCor, dec 0
+Area_c_yCor, dec 0
+is_trig, dec 0
+
+Per, Dec 3
+Load	Per_bxCr
+subt	Per_axCr
+Store	multp_num1
+Store	multp_num2
+JnS		multp
+STORE	Per_temp
+Load	Per_byCr
+Subt	Per_ayCr
+Store	multp_num1
+Store	multp_num2
+JnS		multp
+add		Per_temp
+store	AType_ab
+output
+STORE	abs_n
+JnS		abs
+store	raiz_a
+JNS		raiz
+output
+store	Per_ab
+Load	Per_cxCr
+subt	Per_bxCr
+Store	multp_num1
+Store	multp_num2
+JnS		multp
+STORE	Per_temp
+Load	Per_cyCr
+Subt	Per_byCr
+Store	multp_num1
+Store	multp_num2
+JnS		multp
+add		Per_temp
+store	AType_bc
+STORE	abs_n
+JnS		abs
+output
+store	raiz_a
+JNS		raiz
+output
+store	Per_bc
+Load	Per_axCr
+subt	Per_cxCr
+Store	multp_num1
+Store	multp_num2
+JnS		multp
+STORE	Per_temp
+Load	Per_ayCr
+Subt	Per_cyCr
+Store	multp_num1
+Store	multp_num2
+JnS		multp
+add		Per_temp
+STORE	abs_n
+JnS		abs
+store	raiz_a
+store	AType_ca
+output
+JNS		raiz
+output
+store	Per_ca
+Add		Per_ab
+add		Per_bc
+JumpI	Per
+Per_temp,	Dec 0
+Per_axCr,	Dec 0
+Per_ayCr,	Dec 0
+Per_ab,			Dec 0
+Per_bxCr,	Dec 0
+Per_byCr,	Dec 0
+Per_bc,			Dec 0
+Per_cxCr,	Dec 0
+Per_cyCr,	Dec 0
+Per_ca,			Dec 0
+
+raiz,	Dec 1
+clear
+Store	raiz_low
+load	raiz_max
+STORE	raiz_high
+clear
+Store	raiz_ans
+raiz_loop, load	raiz_high
+subt	raiz_low
+skipcond 	000
+Jump	raiz_body
+Jump	raiz_end
+raiz_body, load raiz_low
+add	raiz_high
+store	div_a
+Load	two
+store	div_b
+JNS	div
+store	raiz_mid
+store	multp_num1
+store	multp_num2
+JnS	multp
+store	raiz_cuad
+load	raiz_a
+subt	raiz_cuad
+skipcond	800
+jump	raiz_bigger
+jump	raiz_lower
+raiz_bigger,	load	raiz_mid
+subt	one
+store	raiz_high
+jump	raiz_loop
+raiz_lower,		load	raiz_mid
+store	raiz_ans
+add		one
+store	raiz_low
+jump	raiz_loop
+raiz_end, load 	raiz_mid
+store	multp_num1
+store	multp_num2
+jns		multp
+subt	raiz_a
+skipcond 400
+jump	raiz_endend
+load	raiz_mid
+store	raiz_ans
+raiz_endend, load	raiz_ans
+JumpI	raiz
+raiz_a,		dec 0
+raiz_ans,	dec 0
+raiz_cuad,	dec 0
+raiz_high,	dec 0
+raiz_low,	dec 0
+raiz_max, 	dec 181
+raiz_mid,	dec 0
+
+
+max, Dec 3
+load max_a
+subt max_b
+skipcond 800
+jump	max_bgrt
+load max_a
+subt max_c
+skipcond 800
+jump max_cgrt
+load max_a
+store	max_ans
+load	max_b
+store	max_min1
+load	max_c
+store	max_min2
+jump	max_end
+max_bgrt,	Load 	max_b
+subt	max_c
+skipcond 800
+jump	max_cgrt
+load	max_b
+store	max_ans
+load	max_a
+store	max_min1
+load	max_c
+store	max_min2
+Jump 	max_end
+max_cgrt, load max_c
+store	max_ans
+load	max_a
+store	max_min1
+load	max_b
+store	max_min2
+jump	max_end
+max_end,	load max_ans
+JumpI max
+max_a,	dec 0
+max_ans, dec 0
+max_b, dec 0
+max_c, dec 0
+max_min1, dec 0
+max_min2, dec 0
+
+AType, dec 5
+load	AType_ab
+store	max_a
+load	AType_bc
+store	max_b
+load	AType_ca
+store	max_c
+JnS		max
+load 	max_min1
+add		max_min2
+subt	max_ans
+skipcond	400
+jump	AType_neq
+load	AType_rectangulo
+jump	AType_end
+AType_neq, skipcond	800
+jump	AType_ngrt
+load	AType_acutangulo
+jump	AType_end
+AType_ngrt,	load	AType_obtusangulo
+jump	AType_end
+AType_end,	JumpI	AType
+AType_ab,	dec 0
+AType_bc,	dec 0
+AType_ca,	dec 0
+AType_acutangulo, dec 2
+AType_obtusangulo, dec 3
+AType_rectangulo, dec 1
+
+LType, dec 9
+load	LType_ab
+store	max_a
+load	LType_bc
+store	max_b
+load	LType_ca
+store	max_c
+JnS		max
+load	max_ans
+subt	max_min1
+skipcond	400
+jump	LType_1dif
+load	max_min1
+subt	max_min2
+skipcond	400
+jump	LType_2dif
+load	LType_equilatero
+jump	LType_end	
+LType_1dif, load	max_min1
+subt	max_min2
+skipcond	400
+jump	LType_2dif
+load	LType_isoceles
+jump	LType_end
+LType_2dif,	load	max_ans
+subt	max_min2
+skipcond	400	
+jump	LType_noeq
+load	LType_isoceles
+jump	LType_end
+LType_noeq,	load LType_escaleno
+LType_end,	JumpI	LType
+LType_ab, dec 0
+LType_bc, dec 0
+LType_ca, dec 0
+LType_equilatero, dec 1
+LType_escaleno, dec 3
+LType_isoceles, dec 2
+
+
+div, DEC 2
+	clear
+	STORE div_c	
+	Load div_a
+	Store abs_n
+	JnS abs
+	Store new_a2	
+	Load div_b
+	Store abs_n
+	JnS abs
+	Store new_b2	
+	load new_a2	
+whilediv, subt new_b2
+	Store new_a2
+	skipcond 000	
+	Jump whilebodydiv 
+	Jump endwhilediv 
+whilebodydiv, load div_c
+	add one
+	store div_c
+	load new_a2
+	Jump whilediv		
+endwhilediv, load div_a
+	Skipcond 000	
+	Jump ansb1 
+	clear
+	Subt div_c
+	Store div_c	
+ansb1, 	load div_b
+	skipcond 000 	
+	jump return1	
+	clear
+	Subt div_c
+	Store div_c
+return1, load new_a2
+	skipcond	800
+	jump	return_final
+	Load div_c
+	add	one
+	store	div_c
+return_final, load div_c
+	JumpI div	
+div_a,	dec 0
+div_b,	dec 0
+div_c,	dec 0
+new_a2,	dec 0
+new_b2,	dec 0
+
+multp,  dec 21
+            load    multp_num1
+            skipcond    000
+            jump    multp_oneNeg
+            load    multp_num2
+            skipcond    000
+            jump    multp_twoNeg
+multp_oneNeg,   load    multp_num2
+            skipcond    000
+            jump    multp_start
+            store   abs_n
+            jns     abs
+            store   multp_num2
+            load    multp_num1
+            store   abs_n
+            jns     abs
+            store   multp_num1
+            jump    multp_start
+multp_twoNeg,   load    multp_num1
+            skipcond    000
+            jump    multp_start
+            store   abs_n
+            jns     abs
+            store   multp_num1
+            load    multp_num2
+            store   abs_n
+            jns     abs
+            store   multp_num2
+            jump    multp_start
+multp_start,			Load    zero
+            Store   multp_I
+            Store   multp_Ans
+multp_While, Load    multp_I
+            subt    multp_num2
+            Skipcond    000 
+            Jump    multp_end
+            Load    multp_Ans
+            Add     multp_num1
+            Store   multp_Ans
+            Load    multp_I
+            Add     one
+			Store	multp_I
+            Jump    multp_While
+multp_end,   Load    multp_Ans
+			jumpi	multp         
+multp_num1, Dec 0
+multp_num2,	Dec 0
+multp_I,	Dec 0
+multp_Ans, Dec 0          
+
+
+
+abs,	DEC 4
+	Load abs_n
+	skipcond 000 
+	Jump abs_end
+	CLEAR
+	Subt abs_n
+	Store abs_n
+abs_end, Load abs_n
+	JumpI abs
+abs_n,	DEC 0
+        
+
+zero,       dec 0
+one,        dec 1
+two,		Dec 2
+ten,		dec 10
+onehundred, DEC 100

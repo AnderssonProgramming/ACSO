@@ -1,0 +1,65 @@
+/**
+ * Proyecto 1 | Daniel Antonio Santanilla | add.hdl
+ * Implementar un circuito en HDL que realice la suma de 
+ * dos numeros de 48 bits.
+ * input: a2[16], a1[16], a0[16], b2[16], b1[16], b0[16]
+ * output: c2[16], c1[16], c0[16]
+ */
+
+CHIP add
+{
+    IN a2[16], a1[16], a0[16], b2[16], b1[16], b0[16];
+    OUT c2[16], c1[16], c0[16];
+
+    PARTS:
+	HalfAdder(a=a0[0], b=b0[0], sum=c0[0], carry=carry1);
+	FullAdder(a=a0[1],b=b0[1],c=carry1,sum=c0[1],carry=carry2);
+	FullAdder(a=a0[2],b=b0[2],c=carry2,sum=c0[2],carry=carry3);
+	FullAdder(a=a0[3],b=b0[3],c=carry3,sum=c0[3],carry=carry4);
+	FullAdder(a=a0[4],b=b0[4],c=carry4,sum=c0[4],carry=carry5);
+	FullAdder(a=a0[5],b=b0[5],c=carry5,sum=c0[5],carry=carry6);
+	FullAdder(a=a0[6],b=b0[6],c=carry6,sum=c0[6],carry=carry7);
+	FullAdder(a=a0[7],b=b0[7],c=carry7,sum=c0[7],carry=carry8);
+	FullAdder(a=a0[8],b=b0[8],c=carry8,sum=c0[8],carry=carry9);
+	FullAdder(a=a0[9],b=b0[9],c=carry9,sum=c0[9],carry=carry10);
+	FullAdder(a=a0[10],b=b0[10],c=carry10,sum=c0[10],carry=carry11);
+	FullAdder(a=a0[11],b=b0[11],c=carry11,sum=c0[11],carry=carry12);
+	FullAdder(a=a0[12],b=b0[12],c=carry12,sum=c0[12],carry=carry13);
+	FullAdder(a=a0[13],b=b0[13],c=carry13,sum=c0[13],carry=carry14);
+	FullAdder(a=a0[14],b=b0[14],c=carry14,sum=c0[14],carry=carry15);
+	FullAdder(a=a0[15],b=b0[15],c=carry15,sum=c0[15],carry=carry16);
+
+	FullAdder(a=a1[0],b=b1[0],c=carry16,sum=c1[0],carry=carry17);
+	FullAdder(a=a1[1],b=b1[1],c=carry17,sum=c1[1],carry=carry18);
+	FullAdder(a=a1[2],b=b1[2],c=carry18,sum=c1[2],carry=carry19);
+	FullAdder(a=a1[3],b=b1[3],c=carry19,sum=c1[3],carry=carry20);
+	FullAdder(a=a1[4],b=b1[4],c=carry20,sum=c1[4],carry=carry21);
+	FullAdder(a=a1[5],b=b1[5],c=carry21,sum=c1[5],carry=carry22);
+	FullAdder(a=a1[6],b=b1[6],c=carry22,sum=c1[6],carry=carry23);
+	FullAdder(a=a1[7],b=b1[7],c=carry23,sum=c1[7],carry=carry24);
+	FullAdder(a=a1[8],b=b1[8],c=carry24,sum=c1[8],carry=carry25);
+	FullAdder(a=a1[9],b=b1[9],c=carry25,sum=c1[9],carry=carry26);
+	FullAdder(a=a1[10],b=b1[10],c=carry26,sum=c1[10],carry=carry27);
+	FullAdder(a=a1[11],b=b1[11],c=carry27,sum=c1[11],carry=carry28);
+	FullAdder(a=a1[12],b=b1[12],c=carry28,sum=c1[12],carry=carry29);
+	FullAdder(a=a1[13],b=b1[13],c=carry29,sum=c1[13],carry=carry30);
+	FullAdder(a=a1[14],b=b1[14],c=carry30,sum=c1[14],carry=carry31);
+	FullAdder(a=a1[15],b=b1[15],c=carry31,sum=c1[15],carry=carry32);
+
+	FullAdder(a=a2[0],b=b2[0],c=carry32,sum=c2[0],carry=carry33);
+	FullAdder(a=a2[1],b=b2[1],c=carry33,sum=c2[1],carry=carry34);
+	FullAdder(a=a2[2],b=b2[2],c=carry34,sum=c2[2],carry=carry35);
+	FullAdder(a=a2[3],b=b2[3],c=carry35,sum=c2[3],carry=carry36);
+	FullAdder(a=a2[4],b=b2[4],c=carry36,sum=c2[4],carry=carry37);
+	FullAdder(a=a2[5],b=b2[5],c=carry37,sum=c2[5],carry=carry38);
+	FullAdder(a=a2[6],b=b2[6],c=carry38,sum=c2[6],carry=carry39);
+	FullAdder(a=a2[7],b=b2[7],c=carry39,sum=c2[7],carry=carry40);
+	FullAdder(a=a2[8],b=b2[8],c=carry40,sum=c2[8],carry=carry41);
+	FullAdder(a=a2[9],b=b2[9],c=carry41,sum=c2[9],carry=carry42);
+	FullAdder(a=a2[10],b=b2[10],c=carry42,sum=c2[10],carry=carry43);
+	FullAdder(a=a2[11],b=b2[11],c=carry43,sum=c2[11],carry=carry44);
+	FullAdder(a=a2[12],b=b2[12],c=carry44,sum=c2[12],carry=carry45);
+	FullAdder(a=a2[13],b=b2[13],c=carry45,sum=c2[13],carry=carry46);
+	FullAdder(a=a2[14],b=b2[14],c=carry46,sum=c2[14],carry=carry47);
+	FullAdder(a=a2[15],b=b2[15],c=carry47,sum=c2[15],carry=carry48);
+}

@@ -1,0 +1,2 @@
+as -g -mfpu=vfpv2 -o pro03.o pro03.s
+gcc -o pro03 pro03.o

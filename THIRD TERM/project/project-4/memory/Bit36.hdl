@@ -1,0 +1,10 @@
+CHIP Bit36
+{
+    IN a[12], b[12], c[12], load;
+    OUT d[12], e[12], f[12];
+
+    PARTS:
+    Bit12(in=a, load=load, out=d);
+    Bit12(in=b, load=load, out=e);
+    Bit12(in=c, load=load, out=f);
+}

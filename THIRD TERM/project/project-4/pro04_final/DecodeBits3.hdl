@@ -1,0 +1,33 @@
+CHIP DecodeBits3 {
+    IN in[3];
+    OUT out00, out01, out02, out03, out04, out05, out06, out07;
+    
+    PARTS:
+    Not(in=in[0], out=n0);
+    Not(in=in[1], out=n1);
+    Not(in=in[2], out=n2);
+    
+    And(a=n2, b=n1, out=and00a);
+    And(a=and00a, b=n0, out=out00);
+    
+    And(a=n2, b=n1, out=and01a);
+    And(a=and01a, b=in[0], out=out01);
+    
+    And(a=n2, b=in[1], out=and02a);
+    And(a=and02a, b=n0, out=out02);
+    
+    And(a=n2, b=in[1], out=and03a);
+    And(a=and03a, b=in[0], out=out03);
+    
+    And(a=in[2], b=n1, out=and04a);
+    And(a=and04a, b=n0, out=out04);
+    
+    And(a=in[2], b=n1, out=and05a);
+    And(a=and05a, b=in[0], out=out05);
+    
+    And(a=in[2], b=in[1], out=and06a);
+    And(a=and06a, b=n0, out=out06);
+    
+    And(a=in[2], b=in[1], out=and07a);
+    And(a=and07a, b=in[0], out=out07);
+}
